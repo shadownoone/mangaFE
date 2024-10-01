@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root,
+body,
+html {
+  padding: 0;
+  margin: 0;
+  font-family:
+    SF Pro Display,
+    SF Pro Icons,
+    Helvetica Neue,
+    Helvetica,
+    Arial,
+    sans-serif;
+  user-select: none;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+html ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+html ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+}
+
+strong {
+  font-size: unset;
+  font-weight: unset;
+}
+
+/* remove common styles pagination swiper */
+.swiper-pagination-fraction,
+.swiper-pagination-custom,
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+  bottom: unset !important;
+  top: unset !important;
+  left: unset !important;
+  width: unset !important;
+}
+
+#swiper-banner-pagination {
+  bottom: 2px !important;
+}
+
+.swiper-pagination .swiper-pagination-bullet,
+.swiper-pagination-recommend .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  margin-right: 5px;
+  background: #d9d9d9;
+  opacity: 90;
+  cursor: pointer;
+}
+
+.swiper-pagination .swiper-pagination-bullet-active,
+.swiper-pagination-recommend .swiper-pagination-bullet-active {
+  width: 23px;
+  height: 10px;
+  border-radius: 5px;
+  background: #ff416b;
+}
