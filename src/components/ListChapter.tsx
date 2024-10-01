@@ -27,7 +27,7 @@ const ListChapter = ({ data, manga_id, slug }: Props) => {
         const chaptersData = await getChapter()
 
         const filteredChapters = chaptersData.data.data.filter(
-          (chapter) => chapter.manga_id === manga_id
+          (chapter: any) => chapter.manga_id === manga_id
         )
 
         setDataChapter(filteredChapters)
@@ -106,7 +106,7 @@ const ListChapter = ({ data, manga_id, slug }: Props) => {
         </li>
       </ul>
       <div className='grid grid-cols-2 sm:grid-cols-4 md:grid-cols-3 lg:grid-cols-4 gap-5 my-5 text-gray-800 dark:text-gray-200 font-semibold text-sm flex-wrap'>
-        {dataChapter.map((item) => (
+        {dataChapter.map((item: any) => (
           <Link
             to={`${PATH.comics}/${slug}/${item.slug}`}
             title={item.title}

@@ -145,7 +145,7 @@ const SlidePreviewComics = ({ data }: Props) => {
                             })}
                           </div>
                           <p className='text-base text-gray-400 line-clamp-3 mt-4'>
-                            {item.short_description}
+                            {item.description}
                           </p>
                         </>
                       )}

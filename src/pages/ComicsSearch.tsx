@@ -1,4 +1,3 @@
-import comicApis from '@/apis/comicApis'
 import { MiniPagination, Pagination } from '@/components'
 import { DocumentIcon } from '@/components/Icon'
 import { renderSwiperSlide } from '@/components/Preview/RecentUpdateComics'
@@ -22,7 +21,6 @@ const ComicsSearch = () => {
     keepPreviousData: true
   })
   const dataSearch = data?.data
-  // console.log(data)
 
   return (
     <>

@@ -1,9 +1,8 @@
-import comicApis from '@/apis/comicApis'
 import { comics } from '@/types/data'
 import PATH from '@/utils/path'
-import { useQuery } from 'react-query'
+
 import { Link, createSearchParams } from 'react-router-dom'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import imgError from '/img-error.webp'
 import iconTop from '/icon-top.webp'
 import { useMediaQuery } from 'react-responsive'
@@ -15,30 +14,6 @@ const TopPreviewComics = () => {
   const [topMangas, setTopMangas] = useState([])
 
   const isMobile = useMediaQuery({ maxWidth: 640 })
-  const { data: dataDaily } = useQuery({
-    queryKey: [`${PATH.top}${PATH.daily}`, { page: '1', status: 'all' }],
-    queryFn: () =>
-      comicApis.getComicsByUrl(`${PATH.top}${PATH.daily}`, { page: '1', status: 'all' }),
-    keepPreviousData: true,
-    staleTime: 3 * 60 * 1000
-  })
-  const { data: dataWeekly } = useQuery({
-    queryKey: [`${PATH.top}${PATH.weekly}`, { page: '1', status: 'all' }],
-    queryFn: () =>
-      comicApis.getComicsByUrl(`${PATH.top}${PATH.weekly}`, { page: '1', status: 'all' }),
-    keepPreviousData: true,
-    staleTime: 3 * 60 * 1000
-  })
-  const { data: dataMonthly } = useQuery({
-    queryKey: [`${PATH.top}${PATH.monthly}`, { page: '1', status: 'all' }],
-    queryFn: () =>
-      comicApis.getComicsByUrl(`${PATH.top}${PATH.monthly}`, { page: '1', status: 'all' }),
-    keepPreviousData: true,
-    staleTime: 3 * 60 * 1000
-  })
-  // const dataDailyComics = useMemo(() => dataDaily?.data.comics, [dataDaily])
-  const dataWeeklyComics = useMemo(() => dataWeekly?.data.comics, [dataWeekly])
-  const dataMonthlyComics = useMemo(() => dataMonthly?.data.comics, [dataMonthly])
 
   useEffect(() => {
     const fetchTopMangas = async () => {

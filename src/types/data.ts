@@ -6,6 +6,7 @@ export interface dataComics {
 }
 
 export type comics = {
+  id: string
   author: string | string[]
   followers: number
   genres: [
@@ -38,13 +39,11 @@ export type comics = {
   updated_at: string
 }
 
-export type dataGenres = [
-  {
-    id: string
-    name: string
-    description: string
-  }
-]
+export type dataGenres = {
+  genre_id: string
+  name: string
+  description: string
+}
 
 export type comicsDetail = {
   title: string
@@ -78,28 +77,26 @@ export type comicsChapter = {
 }[]
 
 export type comicsComment = {
-  comments: [
-    {
-      avatar: string
-      username: string
-      chapter: string
-      content: string
-      stickers: [string]
-      replies: [
-        {
-          avatar: string
-          username: string
-          content: string
-          stickers: [string]
-          created_at: string
-          vote_count: number
-          mention_user: string
-        }
-      ]
-      created_at: string
-      vote_count: number
-    }
-  ]
+  avatar: string
+  username: string
+  chapter: {
+    title: string
+  }
+  content: string
+  stickers: [string]
+  user: {
+    avatar: string
+    username: string
+    content: string
+    stickers: [string]
+    created_at: string
+    vote_count: number
+    mention_user: string
+  }
+
+  created_at: string
+  vote_count: number
+
   total_comments: number
   total_pages: number
   current_page: number
@@ -134,3 +131,20 @@ export type comicSuggestSearch = [
     authors: string
   }
 ]
+
+export type favorite = {
+  slug: string
+  favoriteId: number
+  mangaId: number
+  mangaTitle: string
+  coverImage: string
+}
+
+export type history = {
+  slug: string
+  imageTitle: string
+  chapterSlug: string
+  chapterTitle: string
+  mangaTitle: string
+  last_read_at: string
+}

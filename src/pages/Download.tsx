@@ -1,5 +1,5 @@
 import comicApis from '@/apis/comicApis'
-import { Document, Image, PDFDownloadLink, Page, View } from '@react-pdf/renderer'
+import { Document, Image, PDFDownloadLink } from '@react-pdf/renderer'
 import { Helmet } from 'react-helmet-async'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
@@ -27,7 +27,7 @@ const Download = () => {
           <PDFDownloadLink
             document={
               <Document>
-                {dataChapter.images.map((item) => (
+                {/* {dataChapter.images.map((item) => (
                   <Page key={item.page}>
                     <View
                       style={{
@@ -49,7 +49,7 @@ const Download = () => {
                       />
                     </View>
                   </Page>
-                ))}
+                ))} */}
               </Document>
             }
             fileName={`${dataChapter.comic_name}/(${dataChapter.chapter_name.replace('.', '-')})`}

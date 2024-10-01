@@ -1,4 +1,3 @@
-import comicApis from '@/apis/comicApis'
 import iconPopular from '/icon-popular.webp'
 import iconRecentUpdate from '/icon-recentUpdate.webp'
 import iconRecommend from '/icon-recommend.webp'
@@ -10,32 +9,27 @@ import {
   SlidePreviewComics,
   TopPreviewComics
 } from '@/components/Preview'
-import { useQueryConfig } from '@/hooks'
+// import { useQueryConfig } from '@/hooks'
 import { comics } from '@/types/data'
 import PATH from '@/utils/path'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import { useQuery } from 'react-query'
+
 import { Link, createSearchParams } from 'react-router-dom'
 import { getManga } from '@/services/mangaService/getManga'
 import { CompletedIcon, RightArrowIcon } from '@/components/Icon'
 
 const Home: React.FC = () => {
-  const [manga, setManga] = useState([])
+  const [manga, setManga] = useState<comics[]>([])
 
   useEffect(() => {
     ;(async () => {
       const data = await getManga()
-      setManga(data.data)
+      setManga(data.data.data)
     })()
   }, [])
 
-  const queryConfig = useQueryConfig()
-
-  // const dataRecentUpdatedComics = useMemo(() => dataRecentUpdated?.data.comics, [dataRecentUpdated])
-  // const dataRecommendComics = useMemo(() => dataRecommend?.data, [dataRecommend])
-  // const dataPopularComics = useMemo(() => dataPopular?.data.comics, [dataPopular])
-  // const dataCompletedComics = useMemo(() => dataCompleted?.data.comics, [dataCompleted])
+  // const queryConfig = useQueryConfig()
 
   return (
     <>
@@ -50,18 +44,18 @@ const Home: React.FC = () => {
         <Banner />
         <section className='mt-10'>
           {titleComicsPreview(iconRecentUpdate, 'Mới cập nhật', PATH.recent)}
-          <RecentUpdateComics data={manga.data as comics[]} />
+          <RecentUpdateComics data={manga as comics[]} />
         </section>
         <section className='mt-16'>
           <TopPreviewComics />
         </section>
         <section className='mt-10'>
           {titleComicsPreview(iconRecommend, 'Đề xuất', '', false)}
-          <ListPreviewComics data={manga.data as comics[]} />
+          <ListPreviewComics data={manga as comics[]} />
         </section>
         <section className='mt-16'>
           {titleComicsPreview(iconPopular, 'Nổi bật', PATH.popular)}
-          <SlidePreviewComics data={manga.data as comics[]} />
+          <SlidePreviewComics data={manga as comics[]} />
         </section>
         <section className='mt-10'>
           <div className='flex items-end'>
@@ -85,7 +79,7 @@ const Home: React.FC = () => {
               <RightArrowIcon />
             </Link>
           </div>
-          <CompletedPreviewComics data={manga.data as comics[]} />
+          <CompletedPreviewComics data={manga as comics[]} />
         </section>
       </div>
     </>

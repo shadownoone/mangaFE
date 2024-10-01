@@ -10,7 +10,7 @@ import imgLoading from '/loading.gif'
 import { NotFound } from '@/App'
 import { Helmet } from 'react-helmet-async'
 import { getMangaBySlug, getMangaTop } from '@/services/mangaService/getManga'
-import { comics } from '@/types/data'
+import { comics, favorite } from '@/types/data'
 
 import { BookIcon, DocumentIcon, FavoriteIcon } from '@/components/Icon'
 import {
@@ -27,7 +27,7 @@ const ComicsDetail = () => {
   const [isShow, setIsShow] = useState<boolean>(false)
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false)
   const [isFavorite, setIsFavorite] = useState<boolean>(false)
-  const [favorite, setFavorite] = useState([])
+  const [favorite, setFavorite] = useState<favorite[]>([])
   const [currentUser, setCurrentUser] = useState(null)
   const description = useRef<HTMLParagraphElement>(null)
 
@@ -92,7 +92,7 @@ const ComicsDetail = () => {
 
         // Kiểm tra xem truyện hiện tại có trong danh sách yêu thích không
         const isFavoriteManga = userFavorite.data.user.favorites.some(
-          (fav) => fav.slug === slug // So sánh slug từ URL với slug trong danh sách yêu thích
+          (fav: any) => fav.slug === slug // So sánh slug từ URL với slug trong danh sách yêu thích
         )
 
         setIsFavorite(isFavoriteManga) // Cập nhật trạng thái
@@ -150,7 +150,7 @@ const ComicsDetail = () => {
   // Tính trung bình rating từ mảng ratings
   const averageRating = useMemo(() => {
     if (!manga?.ratings?.length) return 0 // Kiểm tra nếu không có manga hoặc không có rating
-    const totalRating = manga.ratings.reduce((sum, rating) => sum + rating.rating, 0)
+    const totalRating = manga.ratings.reduce((sum: any, rating: any) => sum + rating.rating, 0)
     return Math.round((totalRating / manga.ratings.length) * 10) / 10 // Lấy 1 số thập phân
   }, [manga])
 

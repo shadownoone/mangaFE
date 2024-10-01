@@ -1,13 +1,12 @@
-import comicApis from '@/apis/comicApis'
 import { ListComment } from '@/components'
 import { useScrollTop } from '@/hooks'
 import PATH from '@/utils/path'
 import classNames from 'classnames'
-import { useQuery } from 'react-query'
+
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { comics, comicSingleChapter } from '@/types/data'
-import { historyAddComic } from '@/utils/history'
+
 import { Helmet } from 'react-helmet-async'
 import { getMangaBySlugAndChapter } from '@/services/mangaService/getManga'
 import { DownArrowIcon, LeftArrowIcon, RightArrowIcon } from '@/components/Icon'
@@ -272,6 +271,9 @@ const Breadcrumb = (slug: string, idChapter: string, dataChapter: comics) => {
         Trang chủ
         <RightArrowIcon className='w-5 h-5 ' />
       </Link>
+
+      <Link className='hidden' title='abc' to={`${PATH.comics}/${idChapter}`}></Link>
+
       <Link
         to={`${PATH.comics}/${slug}`}
         title={dataChapter.title}

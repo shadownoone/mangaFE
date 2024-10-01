@@ -2,24 +2,21 @@ import PATH from '@/utils/path'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import imgError from '/img-error.webp'
-import { HistoryComic, historyDeleteComic, historyDeleteComics } from '@/utils/history'
+import { historyDeleteComics } from '@/utils/history'
 import { Helmet } from 'react-helmet-async'
 import { getHistoryBytUser } from '@/services/getUser/getUser'
+import { history } from '@/types/data'
 
 const History = () => {
-  const [dataComics, setDataComics] = useState([])
+  // const [dataComics, setDataComics] = useState([])
 
-  const [readingHistory, setReadingHistory] = useState([])
-  const [user, setUser] = useState(null) // State for user info
+  const [readingHistory, setReadingHistory] = useState<history[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await getHistoryBytUser()
         setReadingHistory(data.data.user.readingHistory)
-        console.log(data.data.user.readingHistory)
-
-        setUser(data.data.user) // Store user data
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -28,22 +25,22 @@ const History = () => {
     fetchData()
   }, [])
 
-  useEffect(() => {
-    const db = window.db
-    const trans = db.transaction('history', 'readwrite')
-    const store = trans.objectStore('history')
-    const cursorRequest = store.index('reading_at').openCursor(null, 'prevunique')
-    const response: any = []
-    cursorRequest.onsuccess = () => {
-      const cursor = cursorRequest.result
-      if (cursor) {
-        response.push(cursor.value)
-        cursor.continue()
-      } else {
-        setDataComics(response)
-      }
-    }
-  }, [window.db.transaction('history', 'readwrite')])
+  // useEffect(() => {
+  //   const db = window.db
+  //   const trans = db.transaction('history', 'readwrite')
+  //   const store = trans.objectStore('history')
+  //   const cursorRequest = store.index('reading_at').openCursor(null, 'prevunique')
+  //   const response: any = []
+  //   cursorRequest.onsuccess = () => {
+  //     const cursor = cursorRequest.result
+  //     if (cursor) {
+  //       response.push(cursor.value)
+  //       cursor.continue()
+  //     } else {
+  //       setDataComics(response)
+  //     }
+  //   }
+  // }, [window.db.transaction('history', 'readwrite')])
 
   return (
     <>

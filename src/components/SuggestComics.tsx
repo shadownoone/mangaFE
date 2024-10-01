@@ -19,8 +19,7 @@ const SuggestComics = ({
   title,
   genres,
   chapter,
-  idChapter,
-  slug,
+
   idComic,
   isStyleSearch = false
 }: Props) => {

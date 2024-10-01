@@ -92,8 +92,6 @@ const RecentUpdateComics = ({ data }: Props) => {
 export default RecentUpdateComics
 
 export const renderSwiperSlide = (data: comics[], perView: number, gap: string) => {
-  // console.log(data)
-
   return (
     <div className={`grid grid-cols-12 gap-${gap}`}>
       {data.map((item) => (

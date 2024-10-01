@@ -1,7 +1,7 @@
 import { getCurrentUser } from '@/services/getUser/getUser'
 import PATH from '@/utils/path'
 
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 interface UserProfile {

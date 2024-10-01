@@ -1,62 +1,26 @@
-import comicApis from '@/apis/comicApis'
 import { CardItem, MiniPagination, Pagination } from '@/components'
 import { useQueryConfig, useScrollTop } from '@/hooks'
 import { useEffect, useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
+
 import { Link, createSearchParams } from 'react-router-dom'
 import classNames from 'classnames'
-import { NotFound } from '@/App'
+
 import { Helmet } from 'react-helmet-async'
 import { getGenre, getMangaByGenre } from '@/services/genreService/getGenre'
 import { getManga } from '@/services/mangaService/getManga'
 
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { DocumentIcon } from '@/components/Icon'
+import { dataGenres } from '@/types/data'
 
 const ComicsList = () => {
-  const [genre, setGenre] = useState([])
+  const [genre, setGenre] = useState<dataGenres[]>([])
   const [mangas, setMangas] = useState<any[]>([]) // Đảm bảo mangas luôn là một mảng
 
   const queryConfig = useQueryConfig()
   const location = useLocation()
-  const navigate = useNavigate()
-
-  // const type = useMemo(
-  //   () => (queryConfig.type !== undefined ? queryConfig.type : 'all'),
-  //   [queryConfig.type]
-  // )
-
-  // const { data: dataGenres } = useQuery({
-  //   queryKey: ['genres'],
-  //   queryFn: () => comicApis.getGenre(),
-  //   staleTime: 3 * 60 * 1000
-  // })
-  // const { data, isError } = useQuery({
-  //   queryKey: ['comicByGenre', type, queryConfig.page],
-  //   queryFn: () => comicApis.getComicsByGenre(type || 'all', queryConfig),
-  //   staleTime: 3 * 60 * 1000
-  // })
-  // // const dataComics = data?.data
-  // const dataGenreComics = dataGenres?.data
-
-  // const descGenre = useMemo(
-  //   () =>
-  //     dataGenreComics?.find((item) => item.id === type)?.description
-  //       ? dataGenreComics?.find((item) => item.id === type)?.description
-  //       : dataGenreComics?.at(0)?.description,
-  //   [type, dataGenreComics]
-  // )
 
   const [totalPage, setTotalPage] = useState<number>()
-  // useEffect(() => {
-  //   if (dataComics) {
-  //     setTotalPage(dataComics.total_pages as number)
-  //   }
-  // }, [type, dataComics])
-
-  // useEffect(() => {
-  //   document.getElementById(type as string)?.scrollIntoView({ block: 'center' })
-  // }, [type])
 
   // Lấy type từ query string để xác định thể loại hiện tại
   const type = useMemo(() => {
@@ -64,7 +28,7 @@ const ComicsList = () => {
     return params.get('type') || 'all'
   }, [location.search])
 
-  // useScrollTop([queryConfig])
+  useScrollTop([queryConfig])
 
   useEffect(() => {
     // Gọi API lấy danh sách thể loại
@@ -92,15 +56,6 @@ const ComicsList = () => {
     }
     fetchMangas()
   }, [type]) // Thêm queryConfig để thay đổi trang cũng kích hoạt API
-
-  const handleGenreClick = (genreId: string) => {
-    navigate({
-      search: createSearchParams({
-        ...queryConfig, // Giữ các thông số hiện tại như `page`
-        type: genreId // Cập nhật thể loại
-      }).toString()
-    })
-  }
 
   return (
     <>
@@ -211,19 +166,19 @@ const ComicsList = () => {
 }
 export default ComicsList
 
-const skeletonGenre = () => {
-  return (
-    <>
-      {Array(24)
-        .fill(0)
-        .map((_, i) => (
-          <li key={i} className='col-span-1 flex-shrink-0'>
-            <div className='min-w-[130px] h-[34px] px-12 py-2 bg-gray-200 rounded-md dark:bg-gray-700' />
-          </li>
-        ))}
-    </>
-  )
-}
+// const skeletonGenre = () => {
+//   return (
+//     <>
+//       {Array(24)
+//         .fill(0)
+//         .map((_, i) => (
+//           <li key={i} className='col-span-1 flex-shrink-0'>
+//             <div className='min-w-[130px] h-[34px] px-12 py-2 bg-gray-200 rounded-md dark:bg-gray-700' />
+//           </li>
+//         ))}
+//     </>
+//   )
+// }
 
 const skeletonListComic = () => {
   return (

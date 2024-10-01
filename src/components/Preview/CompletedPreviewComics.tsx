@@ -18,10 +18,16 @@ const CompletedPreviewComics = ({ data }: Props) => {
   const isTablet = useMediaQuery({ query: '(max-width: 1279px)' })
 
   useEffect(() => {
+    console.log('Data: ', data)
+    console.log('Current Index: ', currentIndex)
     if (data && data.length > 0) {
-      setCurrentImg(data[currentIndex].cover_image)
+      setCurrentImg(data[currentIndex]?.cover_image || '')
     }
   }, [data, currentIndex])
+
+  if (!data || data.length === 0 || !data[currentIndex]) {
+    return <p>No data available</p>
+  }
 
   return (
     <div className='mt-[15px] min-h-[460px] xl:h-[460px]'>

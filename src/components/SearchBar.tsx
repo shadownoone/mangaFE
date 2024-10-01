@@ -2,7 +2,7 @@ import iconSearch from '/icon_search.webp'
 import { SuggestComics } from '.'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
-import comicApis from '@/apis/comicApis'
+
 import PATH from '@/utils/path'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import imgLoading from '/loading.gif'
@@ -17,8 +17,7 @@ const SearchBar = () => {
 
   const {
     data: dataSuggest,
-    isError,
-    isFetching,
+
     isLoading,
     refetch
   } = useQuery({
@@ -107,7 +106,7 @@ const SearchBar = () => {
                 >
                   {dataComicSuggest?.length > 0 &&
                     valueForm &&
-                    dataComicSuggest.map((item, i) => (
+                    dataComicSuggest.map((item: any, i: any) => (
                       <div
                         key={item.slug}
                         onMouseDown={() => handleClick(item.slug)}
@@ -122,7 +121,7 @@ const SearchBar = () => {
                           chapter={
                             item.chapters.length > 0 ? item.chapters[0].title : 'No chapters'
                           }
-                          genres={item.genres.map((genre) => genre.name)}
+                          genres={item.genres.map((genre: any) => genre.name)}
                         />
                       </div>
                     ))}

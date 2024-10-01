@@ -1,5 +1,5 @@
 import { comicsChapter } from '@/types/data'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import classNames from 'classnames'
 import PATH from '@/utils/path'
 
@@ -12,7 +12,7 @@ const ListDownloadChapter = ({ data, id }: Props) => {
   const newestChapter = useMemo(() => Number(data[0]?.name?.match(/\d+(\.\d+)?/)?.[0]), [data])
   const numberButton = 50
   // useMemo(() => Math.ceil(newestChapter / 50), [newestChapter])
-  const [dataChapter, setDataChapter] = useState<any>([])
+  // const [dataChapter, setDataChapter] = useState<any>([])
   const [range, setRange] = useState([0, 50])
   const [active, setActive] = useState<number>(0)
   const [openList, setOpenList] = useState<boolean>(false)
@@ -20,18 +20,18 @@ const ListDownloadChapter = ({ data, id }: Props) => {
 
   // console.log(data)
 
-  useEffect(() => {
-    setDataChapter(
-      data
-        .filter(
-          (item) =>
-            Number(item.name.match(/\d+(\.\d+)?/)?.[0]) <=
-              (!isNaN(range[1]) && range[1] < newestChapter ? range[1] : newestChapter) &&
-            Number(item.name.match(/\d+(\.\d+)?/)?.[0]) >= (!isNaN(range[0]) ? range[0] : 0)
-        )
-        .reverse()
-    )
-  }, [range])
+  // useEffect(() => {
+  //   setDataChapter(
+  //     data
+  //       .filter(
+  //         (item) =>
+  //           Number(item.name.match(/\d+(\.\d+)?/)?.[0]) <=
+  //             (!isNaN(range[1]) && range[1] < newestChapter ? range[1] : newestChapter) &&
+  //           Number(item.name.match(/\d+(\.\d+)?/)?.[0]) >= (!isNaN(range[0]) ? range[0] : 0)
+  //       )
+  //       .reverse()
+  //   )
+  // }, [range])
 
   const handleRenderGroupChapter = (i: number) => {
     if (i === 0) {
@@ -55,13 +55,13 @@ const ListDownloadChapter = ({ data, id }: Props) => {
     }
   }
 
-  const onAddDownloadChapter = (chapterId: number) => {
-    if (downloadChapters.includes(chapterId)) {
-      setDownloadChapters((prev) => prev.filter((item) => item !== chapterId))
-    } else {
-      setDownloadChapters((prev) => [...prev, chapterId])
-    }
-  }
+  // const onAddDownloadChapter = (chapterId: number) => {
+  //   if (downloadChapters.includes(chapterId)) {
+  //     setDownloadChapters((prev) => prev.filter((item) => item !== chapterId))
+  //   } else {
+  //     setDownloadChapters((prev) => [...prev, chapterId])
+  //   }
+  // }
 
   const handleDownloadChapters = async () => {
     try {
@@ -144,7 +144,7 @@ const ListDownloadChapter = ({ data, id }: Props) => {
       </div>
       <div className='px-2 overflow-y-auto h-[350px]'>
         <ul className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 my-3 text-gray-800 font-semibold text-sm flex-wrap'>
-          {(dataChapter as comicsChapter).map((item) => (
+          {/* {(dataChapter as comicsChapter).map((item) => (
             <li key={item.id} className='flex-1 rounded-md overflow-hidden'>
               <button
                 onClick={() => onAddDownloadChapter(item.id)}
@@ -161,7 +161,7 @@ const ListDownloadChapter = ({ data, id }: Props) => {
                 <span className='line-clamp-1 whitespace-nowrap'>{item.name}</span>
               </button>
             </li>
-          ))}
+          ))} */}
         </ul>
       </div>
       <div className='flex items-center gap-3 justify-end pr-4 pt-2'>

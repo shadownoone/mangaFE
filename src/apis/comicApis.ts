@@ -4,8 +4,7 @@ import {
   comics,
   comicsComment,
   comicsDetail,
-  dataComics,
-  dataGenres
+  dataComics
 } from '@/types/data'
 import PATH from '@/utils/path'
 import { axiosClients } from './axiosClients'
@@ -33,10 +32,7 @@ const comicApis = {
     const url = PATH.recommend
     return axiosClients.get<comics[]>(url)
   },
-  // getGenre() {
-  //   const url = PATH.genres
-  //   return axiosClients.get<dataGenres>(url)
-  // },
+
   getComicsByGenre(id: string, params?: { page?: string }) {
     const url = `${PATH.genres}/${id}`
     return axiosClients.get<dataComics>(url, { params })

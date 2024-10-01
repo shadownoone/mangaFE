@@ -2,15 +2,13 @@ import PATH from '@/utils/path'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import imgError from '/img-error.webp'
-import { HistoryComic, historyDeleteComic, historyDeleteComics } from '@/utils/history'
+import { historyDeleteComics } from '@/utils/history'
 import { Helmet } from 'react-helmet-async'
 import { getFavoriteBytUser } from '@/services/getUser/getUser'
+import { favorite } from '@/types/data'
 
 const History = () => {
-  const [dataComics, setDataComics] = useState([])
-
-  const [favorite, setFavorite] = useState([])
-  const [user, setUser] = useState(null) // State for user info
+  const [favorite, setFavorite] = useState<favorite[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,8 +16,6 @@ const History = () => {
         const data = await getFavoriteBytUser()
         setFavorite(data.data.user.favorites)
         console.log(data.data)
-
-        // setUser(data.data.user) // Store user data
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -28,32 +24,15 @@ const History = () => {
     fetchData()
   }, [])
 
-  // useEffect(() => {
-  //   const db = window.db
-  //   const trans = db.transaction('history', 'readwrite')
-  //   const store = trans.objectStore('history')
-  //   const cursorRequest = store.index('reading_at').openCursor(null, 'prevunique')
-  //   const response: any = []
-  //   cursorRequest.onsuccess = () => {
-  //     const cursor = cursorRequest.result
-  //     if (cursor) {
-  //       response.push(cursor.value)
-  //       cursor.continue()
-  //     } else {
-  //       setDataComics(response)
-  //     }
-  //   }
-  // }, [window.db.transaction('history', 'readwrite')])
-
   // Hàm để xử lý việc bỏ yêu thích
-  const handleRemoveFavorite = async (mangaId) => {
-    // try {
-    //   await removeFavoriteComic(mangaId) // Gọi API xóa yêu thích
-    //   setFavorite((prevFavorites) => prevFavorites.filter(fav => fav.mangaId !== mangaId)) // Cập nhật danh sách
-    // } catch (error) {
-    //   console.error('Error removing favorite:', error)
-    // }
-  }
+  // const handleRemoveFavorite = async (mangaId: any) => {
+  //   try {
+  //     await removeFavoriteComic(mangaId) // Gọi API xóa yêu thích
+  //     setFavorite((prevFavorites) => prevFavorites.filter(fav => fav.mangaId !== mangaId)) // Cập nhật danh sách
+  //   } catch (error) {
+  //     console.error('Error removing favorite:', error)
+  //   }
+  // }
 
   return (
     <>
@@ -124,21 +103,11 @@ const History = () => {
                       </Link>
 
                       <button
-                        onClick={() => handleRemoveFavorite(favorites.mangaId)}
+                        // onClick={() => handleRemoveFavorite(favorites.mangaId)}
                         className='mt-4 bg-red-500 text-white py-2 px-4 rounded-md font-medium text-sm transition duration-300 ease-in-out hover:bg-red-600 hover:scale-105 active:bg-red-700 active:scale-95 w-[30%]'
                       >
                         Bỏ Yêu Thích
                       </button>
-                      {/* <span className='text-sm mt-1'>Đọc chương {favorites.chapterNumber}</span> */}
-                      {/* <Link
-                        to={`/chapter/${favorites.mangaId}/${favorites.chapterNumber}`}
-                        className='text-primary mt-4'
-                      >
-                        {favorites.chapterTitle}
-                      </Link> */}
-                      {/* <p className='text-sm mt-1'>
-                        Đọc lần cuối: {new Date(favorites.last_read_at).toLocaleString()}
-                      </p> */}
                     </div>
                   </div>
                 </div>

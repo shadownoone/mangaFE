@@ -1,6 +1,3 @@
-import React from 'react'
-
-// Example SVG components
 export const DarkOrLightIcon = ({ className = '' }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'

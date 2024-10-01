@@ -1,20 +1,20 @@
-import comicApis from '@/apis/comicApis'
-import { CardItem, MiniPagination, Pagination } from '@/components'
+import { CardItem } from '@/components'
 import { useQueryConfig, useScrollTop, useTitle } from '@/hooks'
 import PATH from '@/utils/path'
 import { useEffect, useMemo, useState } from 'react'
-import { useQuery } from 'react-query'
+
 import { Link, createSearchParams, useLocation } from 'react-router-dom'
 import classNames from 'classnames'
 import { useMediaQuery } from 'react-responsive'
-import { NotFound } from '@/App'
+
 import { Helmet } from 'react-helmet-async'
 import { getMangaTop, getNewManga } from '@/services/mangaService/getManga'
 import { DocumentIcon } from '@/components/Icon'
+import { comics } from '@/types/data'
 
 const ComicsList = () => {
-  const [topMangas, setTopMangas] = useState([])
-  const [newMangas, setNewMangas] = useState([])
+  const [topMangas, setTopMangas] = useState<comics[]>([])
+  const [newMangas, setNewMangas] = useState<comics[]>([])
 
   const isMobile = useMediaQuery({ maxWidth: 640 })
   const { pathname } = useLocation()
@@ -26,32 +26,6 @@ const ComicsList = () => {
   // )
 
   useScrollTop([pathname, queryConfig])
-
-  // const { data, isError } = useQuery({
-  //   queryKey: [pathname, queryConfig],
-  //   queryFn: () => comicApis.getComicsByUrl(pathname, queryConfig),
-  //   staleTime: 3 * 60 * 1000,
-  //   enabled: pathname !== PATH.new
-  // })
-
-  // const { data: dataNew, isError: isErrorNew } = useQuery({
-  //   queryKey: [pathname, queryConfig],
-  //   queryFn: () => comicApis.getNew(queryConfig),
-  //   staleTime: 3 * 60 * 1000,
-  //   enabled: pathname === PATH.new
-  // })
-
-  // const dataComics = useMemo(
-  //   () => (pathname !== PATH.new ? data?.data : dataNew?.data),
-  //   [pathname, data, dataNew]
-  // )
-
-  // const [totalPage, setTotalPage] = useState<number>()
-  // useEffect(() => {
-  //   if (dataComics) {
-  //     setTotalPage(dataComics.total_pages as number)
-  //   }
-  // }, [pathname, dataComics])
 
   useEffect(() => {
     const fetchTopMangas = async () => {

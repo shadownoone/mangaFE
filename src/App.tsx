@@ -3,7 +3,6 @@ import PATH from './utils/path'
 import { lazy, Suspense, useEffect } from 'react'
 import { ChapterLayout, MainLayout } from './layouts'
 import { initLocalDb } from './utils/history'
-import { getCurrentUser } from './services/getUser/getUser'
 
 const ComicsList = lazy(() => import('./pages/ComicsList'))
 const ComicsGenre = lazy(() => import('./pages/ComicsGenre'))

@@ -4,12 +4,13 @@ import classNames from 'classnames'
 import { useState, useRef, useEffect } from 'react'
 import { useQuery } from 'react-query'
 import imgLoading from '/loading.gif'
-import avatarError from '/anonymous.webp'
+
 import { getComment } from '@/services/commentService/getComment'
 import { RightArrowIcon } from './Icon'
+import { comicsComment } from '@/types/data'
 
 const ListComment = ({ id }: { id: string }) => {
-  const [comment, setComment] = useState([])
+  const [comment, setComment] = useState<comicsComment[]>([])
 
   const el = useRef<HTMLDivElement>(null)
   const [page, setPage] = useState<number>(1)
