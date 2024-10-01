@@ -1,5 +1,5 @@
 import comicApis from '@/apis/comicApis'
-import { Document, Image, PDFDownloadLink } from '@react-pdf/renderer'
+import { Document, PDFDownloadLink } from '@react-pdf/renderer'
 import { Helmet } from 'react-helmet-async'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'

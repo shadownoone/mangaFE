@@ -1,4 +1,3 @@
-import { comicsChapter } from '@/types/data'
 import { useEffect, useMemo, useState } from 'react'
 import classNames from 'classnames'
 import { Link } from 'react-router-dom'
@@ -7,7 +6,14 @@ import { getChapter } from '@/services/chapterService/getChapter'
 import { DownArrowIcon } from './Icon'
 
 interface Props {
-  data: comicsChapter
+  data: {
+    chapter_id: number
+    manga_id: number
+    name: string
+    slug: string
+    title: string
+    chapter_number: number
+  }[]
   manga_id: number
 
   slug: string

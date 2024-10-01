@@ -15,6 +15,7 @@ export type comics = {
       name: string
     }
   ]
+
   manga_id: number
   is_trending: boolean
   slug: string
@@ -28,7 +29,7 @@ export type comics = {
     chapter_number: number
   }[]
 
-  ratings: string
+  ratings: []
   other_names: string[]
   description: string
   status: string
@@ -147,4 +148,12 @@ export type history = {
   chapterTitle: string
   mangaTitle: string
   last_read_at: string
+}
+
+export type user = {
+  avatar: string
+}
+
+export type Rating = {
+  rating: number
 }

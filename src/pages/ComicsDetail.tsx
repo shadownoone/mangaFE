@@ -10,7 +10,7 @@ import imgLoading from '/loading.gif'
 import { NotFound } from '@/App'
 import { Helmet } from 'react-helmet-async'
 import { getMangaBySlug, getMangaTop } from '@/services/mangaService/getManga'
-import { comics, favorite } from '@/types/data'
+import { comics, favorite, Rating } from '@/types/data'
 
 import { BookIcon, DocumentIcon, FavoriteIcon } from '@/components/Icon'
 import {
@@ -150,7 +150,10 @@ const ComicsDetail = () => {
   // Tính trung bình rating từ mảng ratings
   const averageRating = useMemo(() => {
     if (!manga?.ratings?.length) return 0 // Kiểm tra nếu không có manga hoặc không có rating
-    const totalRating = manga.ratings.reduce((sum: any, rating: any) => sum + rating.rating, 0)
+    const totalRating = manga.ratings.reduce(
+      (sum: number, rating: Rating) => sum + rating.rating,
+      0
+    )
     return Math.round((totalRating / manga.ratings.length) * 10) / 10 // Lấy 1 số thập phân
   }, [manga])
 
@@ -330,7 +333,7 @@ const ComicsDetail = () => {
                       {manga && manga.manga_id && (
                         <ListChapter
                           manga_id={manga.manga_id}
-                          data={[manga.chapters]}
+                          data={manga.chapters}
                           slug={manga.slug}
                         />
                       )}

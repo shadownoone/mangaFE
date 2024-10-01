@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { DarkIcon, DarkOrLightIcon, HistoryIcon, UserIcon } from './Icon'
 import { getCurrentUser } from '@/services/getUser/getUser'
+import { user } from '@/types/data'
 
 const Header = () => {
   const queryConfig = useQueryConfig()
@@ -17,7 +18,9 @@ const Header = () => {
   const isMatchTop = useMemo(() => pathname.includes('/top'), [pathname])
   const [OpenTheme, setOpenTheme] = useState<boolean>(false)
   const [OpenNav, setOpenNav] = useState<boolean>(false)
-  const [user, setUser] = useState(null)
+
+  const [user, setUser] = useState<user | null>(null)
+
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
   const navigate = useNavigate()
 
