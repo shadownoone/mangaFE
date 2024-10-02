@@ -18,8 +18,6 @@ const CompletedPreviewComics = ({ data }: Props) => {
   const isTablet = useMediaQuery({ query: '(max-width: 1279px)' })
 
   useEffect(() => {
-    console.log('Data: ', data)
-    console.log('Current Index: ', currentIndex)
     if (data && data.length > 0) {
       setCurrentImg(data[currentIndex]?.cover_image || '')
     }

@@ -1,4 +1,5 @@
 import { getCurrentUser } from '@/services/getUser/getUser'
+import { updateProfile } from '@/services/getUser/updateUser'
 import PATH from '@/utils/path'
 
 import { useState, useEffect } from 'react'
@@ -15,9 +16,10 @@ interface UserProfile {
 const Profile = () => {
   const [user, setUser] = useState<UserProfile | null>(null)
   const [editMode, setEditMode] = useState<boolean>(false)
-  const [newUsername, setNewUsername] = useState<string>('')
-  const [newEmail, setNewEmail] = useState<string>('')
+  const [newUsername, setNewUsername] = useState<string>('') // Tên người dùng mới
+  const [newEmail, setNewEmail] = useState<string>('') // Email mới
 
+  // Lấy thông tin người dùng hiện tại khi component mount
   useEffect(() => {
     const fetchUser = async () => {
       const response = await getCurrentUser()
@@ -32,16 +34,32 @@ const Profile = () => {
   }, [])
 
   const handleEditClick = () => {
-    setEditMode(true)
+    setEditMode(true) // Kích hoạt chế độ chỉnh sửa
   }
 
-  const handleSave = () => {
-    // Hàm xử lý lưu thông tin đã chỉnh sửa
-    setUser((prev) => prev && { ...prev, username: newUsername, email: newEmail })
-    setEditMode(false)
+  const handleSave = async () => {
+    try {
+      // Dữ liệu cần cập nhật
+      const updateData = {
+        username: newUsername,
+        email: newEmail
+      }
+
+      // Gọi API để cập nhật thông tin
+      const response = await updateProfile(updateData)
+      if (response.code === 0) {
+        // Cập nhật lại thông tin người dùng trong state
+        setUser((prev) => prev && { ...prev, username: newUsername, email: newEmail })
+        setEditMode(false) // Tắt chế độ chỉnh sửa
+      } else {
+        console.error('Failed to update profile:', response.message)
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error)
+    }
   }
 
-  if (!user) return <p>Loading...</p>
+  if (!user) return <p>Loading...</p> // Hiển thị loading khi dữ liệu chưa có
 
   return (
     <div className='container mx-auto my-8 p-4'>
@@ -60,7 +78,7 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Phần điều hướng tab */}
+        {/* Điều hướng tab */}
         <div className='border-t flex justify-center space-x-8 p-4 bg-gray-100'>
           <Link
             to={`${PATH.profile}`}
@@ -83,9 +101,8 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* Phần chi tiết của từng tab */}
+      {/* Phần chi tiết */}
       <div className='my-6'>
-        {/* Thông tin cá nhân */}
         <div className='bg-white p-4 shadow rounded-lg'>
           <h3 className='text-xl font-bold mb-4'>Thông tin cá nhân</h3>
 
@@ -97,7 +114,7 @@ const Profile = () => {
                   type='text'
                   className='w-full border-gray-300 rounded-md p-2 mt-1'
                   value={newUsername}
-                  onChange={(e) => setNewUsername(e.target.value)}
+                  onChange={(e) => setNewUsername(e.target.value)} // Cập nhật tên người dùng mới
                 />
               ) : (
                 <input
@@ -115,7 +132,6 @@ const Profile = () => {
                   type='email'
                   className='w-full border-gray-300 rounded-md p-2 mt-1'
                   value={newEmail}
-                  onChange={(e) => setNewEmail(e.target.value)}
                 />
               ) : (
                 <input
@@ -150,13 +166,13 @@ const Profile = () => {
               <>
                 <button
                   className='px-4 py-2 bg-blue-500 text-white rounded mr-2'
-                  onClick={handleSave}
+                  onClick={handleSave} // Gọi hàm lưu thay đổi
                 >
                   Lưu
                 </button>
                 <button
                   className='px-4 py-2 bg-gray-300 text-black rounded'
-                  onClick={() => setEditMode(false)}
+                  onClick={() => setEditMode(false)} // Hủy bỏ chỉnh sửa
                 >
                   Hủy
                 </button>
@@ -164,63 +180,13 @@ const Profile = () => {
             ) : (
               <button
                 className='px-4 py-2 bg-green-500 text-white rounded'
-                onClick={handleEditClick}
+                onClick={handleEditClick} // Bật chế độ chỉnh sửa
               >
                 Chỉnh sửa
               </button>
             )}
           </div>
         </div>
-
-        {/* Danh sách truyện yêu thích */}
-        {/* <div className='bg-white p-4 shadow rounded-lg mt-6'>
-          <h3 className='text-xl font-bold mb-4'>Danh sách truyện yêu thích</h3>
-          <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-            <div className='bg-gray-100 p-4 rounded-lg'>
-              <h4 className='font-semibold'>Truyện 1</h4>
-              <img
-                className='w-full h-48 object-cover mt-2 rounded'
-                src='https://via.placeholder.com/150'
-                alt='Manga'
-              />
-            </div>
-            <div className='bg-gray-100 p-4 rounded-lg'>
-              <h4 className='font-semibold'>Truyện 2</h4>
-              <img
-                className='w-full h-48 object-cover mt-2 rounded'
-                src='https://via.placeholder.com/150'
-                alt='Manga'
-              />
-            </div>
-            <div className='bg-gray-100 p-4 rounded-lg'>
-              <h4 className='font-semibold'>Truyện 3</h4>
-              <img
-                className='w-full h-48 object-cover mt-2 rounded'
-                src='https://via.placeholder.com/150'
-                alt='Manga'
-              />
-            </div>
-          </div>
-        </div> */}
-
-        {/* Lịch sử đọc */}
-        {/* <div className='bg-white p-4 shadow rounded-lg mt-6'>
-          <h3 className='text-xl font-bold mb-4'>Lịch sử đọc</h3>
-          <div className='space-y-4'>
-            <div className='bg-gray-100 p-4 rounded-lg'>
-              <h4 className='font-semibold'>Truyện 1 - Chương 10</h4>
-              <p>Đọc lần cuối: 20/09/2024</p>
-            </div>
-            <div className='bg-gray-100 p-4 rounded-lg'>
-              <h4 className='font-semibold'>Truyện 2 - Chương 15</h4>
-              <p>Đọc lần cuối: 18/09/2024</p>
-            </div>
-            <div className='bg-gray-100 p-4 rounded-lg'>
-              <h4 className='font-semibold'>Truyện 3 - Chương 5</h4>
-              <p>Đọc lần cuối: 16/09/2024</p>
-            </div>
-          </div>
-        </div> */}
       </div>
     </div>
   )

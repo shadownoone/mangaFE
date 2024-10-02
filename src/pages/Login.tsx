@@ -1,17 +1,27 @@
+import { handleLogin } from '@/services/Login/handleLogin'
 import PATH from '@/utils/path'
 import React, { useState } from 'react'
 import { FaGoogle, FaFacebook } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 
 const Login = () => {
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLocalLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Xử lý đăng nhập ở đây
-    console.log('Email:', email)
-    console.log('Password:', password)
+
+    if (!username || !password) {
+      alert('Please enter both username and password.')
+      return
+    }
+
+    try {
+      // Gọi hàm login từ service
+      await handleLogin(username, password)
+    } catch (error) {
+      console.error('Login error:', error)
+    }
   }
 
   const handleGoogleLogin = () => {
@@ -36,7 +46,7 @@ const Login = () => {
     <div className='flex items-center justify-center min-h-screen bg-gray-100'>
       <div className='bg-white p-8 rounded-lg shadow-lg w-full max-w-md'>
         <h2 className='text-2xl font-bold text-gray-800 text-center mb-6'>Sign In</h2>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleLocalLogin}>
           <div className='mb-4'>
             <label htmlFor='email' className='block text-gray-700 font-medium mb-2'>
               Email
@@ -44,8 +54,8 @@ const Login = () => {
             <input
               id='email'
               type='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-indigo-200'
               placeholder='Enter your email'
               required
