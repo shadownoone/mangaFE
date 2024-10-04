@@ -5,12 +5,12 @@ import iconSearch from '/icon_search.webp'
 import classNames from 'classnames'
 import { SearchBar } from '.'
 import { useQueryConfig } from '@/hooks'
-
-import { useNavigate } from 'react-router-dom'
+import avatarUser from '../../public/avatarUser.jpg'
 
 import { DarkIcon, DarkOrLightIcon, HistoryIcon, UserIcon } from './Icon'
 import { getCurrentUser } from '@/services/getUser/getUser'
 import { user } from '@/types/data'
+import { handleLogout } from '@/services/Login/handleLogout'
 
 const Header = () => {
   const queryConfig = useQueryConfig()
@@ -22,7 +22,6 @@ const Header = () => {
   const [user, setUser] = useState<user | null>(null)
 
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
-  const navigate = useNavigate()
 
   useEffect(() => {
     document.body.style.overflow = OpenNav ? 'hidden' : 'unset'
@@ -55,11 +54,6 @@ const Header = () => {
       document.body.classList.add('dark:bg-gray-900')
       localStorage.setItem('theme', 'dark')
     }
-  }
-
-  const handleLogout = () => {
-    // Điều hướng về trang đăng nhập
-    navigate('/login')
   }
 
   return (
@@ -205,7 +199,11 @@ const Header = () => {
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
             >
-              <img src={user.avatar} alt='Avatar' className='w-8 h-8 rounded-full object-cover' />
+              <img
+                src={user.avatar ? user.avatar : avatarUser}
+                alt='Avatar'
+                className='w-8 h-8 rounded-full object-cover'
+              />
 
               {isDropdownOpen && (
                 <div className='absolute right-0 mt-9 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50'>

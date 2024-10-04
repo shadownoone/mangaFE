@@ -1,7 +1,7 @@
 import { getCurrentUser } from '@/services/getUser/getUser'
 import { updateProfile } from '@/services/getUser/updateUser'
 import PATH from '@/utils/path'
-
+import avatarUser from '../../public/avatarUser.jpg'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -68,7 +68,7 @@ const Profile = () => {
         <div className='flex items-center p-6 bg-gray-800 text-white'>
           <img
             className='w-32 h-32 rounded-full object-cover border-4 border-white'
-            src={user.avatar}
+            src={user.avatar ? user.avatar : avatarUser}
             alt='Avatar'
           />
           <div className='ml-6'>
