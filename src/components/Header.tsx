@@ -5,10 +5,10 @@ import iconSearch from '/icon_search.webp'
 import classNames from 'classnames'
 import { SearchBar } from '.'
 import { useQueryConfig } from '@/hooks'
-import avatarUser from '../../public/avatarUser.jpg'
+import avatarUser from '../../assets/img/avatarUser.webp'
 
 import { DarkIcon, DarkOrLightIcon, HistoryIcon, UserIcon } from './Icon'
-import { getCurrentUser } from '@/services/getUser/getUser'
+import { getCurrentUser } from '@/services/userService/getUser'
 import { user } from '@/types/data'
 import { handleLogout } from '@/services/Login/handleLogout'
 

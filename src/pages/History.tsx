@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import imgError from '/img-error.webp'
 import { historyDeleteComics } from '@/utils/history'
 import { Helmet } from 'react-helmet-async'
-import { getHistoryBytUser } from '@/services/getUser/getUser'
+import { getHistoryBytUser } from '@/services/userService/getUser'
 import { history } from '@/types/data'
 
 const History = () => {

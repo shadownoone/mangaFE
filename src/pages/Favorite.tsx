@@ -2,20 +2,20 @@ import PATH from '@/utils/path'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import imgError from '/img-error.webp'
-import { historyDeleteComics } from '@/utils/history'
+// import { historyDeleteComics } from '@/utils/history'
 import { Helmet } from 'react-helmet-async'
-import { getFavoriteBytUser } from '@/services/getUser/getUser'
+import { getFavoriteBytUser } from '@/services/userService/getUser'
 import { favorite } from '@/types/data'
+import { handleDeleteToFavorites } from '@/services/favoriteService/postFavorite'
 
-const History = () => {
-  const [favorite, setFavorite] = useState<favorite[]>([])
+const Favorite = () => {
+  const [favorite, setFavorites] = useState<favorite[]>([])
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await getFavoriteBytUser()
-        setFavorite(data.data.user.favorites)
-        console.log(data.data)
+        setFavorites(data.data.user.favorites)
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -25,14 +25,16 @@ const History = () => {
   }, [])
 
   // Hàm để xử lý việc bỏ yêu thích
-  // const handleRemoveFavorite = async (mangaId: any) => {
-  //   try {
-  //     await removeFavoriteComic(mangaId) // Gọi API xóa yêu thích
-  //     setFavorite((prevFavorites) => prevFavorites.filter(fav => fav.mangaId !== mangaId)) // Cập nhật danh sách
-  //   } catch (error) {
-  //     console.error('Error removing favorite:', error)
-  //   }
-  // }
+  const handleRemoveFavorite = async (favoriteId: any) => {
+    try {
+      await handleDeleteToFavorites(favoriteId) // Gọi API xóa yêu thích
+      setFavorites((prevFavorites) => prevFavorites.filter((fav) => fav.favoriteId !== favoriteId)) // Update local state
+
+      // Update state with new favorites list
+    } catch (error) {
+      console.error('Error removing favorite:', error)
+    }
+  }
 
   return (
     <>
@@ -66,7 +68,7 @@ const History = () => {
           </div>
           <div className='flex items-center'>
             <button
-              onClick={() => historyDeleteComics()}
+              // onClick={() => historyDeleteComics()}
               className='active:scale-90 border border-gray-500 dark:border-gray-400 dark:hover:border-primary hover:border-primary hover:text-primary px-2 py-1 rounded-md'
             >
               Xóa tất cả
@@ -103,7 +105,7 @@ const History = () => {
                       </Link>
 
                       <button
-                        // onClick={() => handleRemoveFavorite(favorites.mangaId)}
+                        onClick={() => handleRemoveFavorite(favorites.favoriteId)}
                         className='mt-4 bg-red-500 text-white py-2 px-4 rounded-md font-medium text-sm transition duration-300 ease-in-out hover:bg-red-600 hover:scale-105 active:bg-red-700 active:scale-95 w-[30%]'
                       >
                         Bỏ Yêu Thích
@@ -122,4 +124,4 @@ const History = () => {
   )
 }
 
-export default History
+export default Favorite

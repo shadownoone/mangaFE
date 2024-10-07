@@ -17,7 +17,7 @@ import {
   handleAddToFavorites,
   handleDeleteToFavorites
 } from '@/services/favoriteService/postFavorite'
-import { getFavoriteBytUser, getCurrentUser } from '@/services/getUser/getUser'
+import { getFavoriteBytUser, getCurrentUser } from '@/services/userService/getUser'
 
 const ComicsDetail = () => {
   const { slug } = useParams()
@@ -114,7 +114,8 @@ const ComicsDetail = () => {
     if (manga) {
       try {
         await handleAddToFavorites(manga.manga_id)
-        alert('Added to favorites successfully!')
+        setIsFavorite(true)
+        await fetchFavorites()
       } catch (error) {
         alert('Failed to add to favorites.')
       }
@@ -127,23 +128,33 @@ const ComicsDetail = () => {
       try {
         // Tìm mục yêu thích có slug trùng khớp với slug hiện tại
         const currentFavorite = favorite.find((fav) => fav.slug === slug)
-        console.log(currentFavorite)
 
         // Nếu tìm thấy mục yêu thích, thực hiện xóa
         if (currentFavorite) {
-          console.log('Favorite ID to remove:', currentFavorite.favoriteId) // Kiểm tra ID
           await handleDeleteToFavorites(currentFavorite.favoriteId)
-          alert('Deleted from favorites successfully!')
+          setIsFavorite(false)
+          await fetchFavorites()
         } else {
-          console.error('Favorite not found for the current manga')
-          alert('Favorite not found')
         }
-      } catch (error) {
-        console.error('Failed to delete from favorites:', error)
-        alert('Failed to delete from favorites.')
-      }
+      } catch (error) {}
     } else {
-      console.error('Favorite or slug is undefined')
+    }
+  }
+
+  // Function to fetch the user's favorites
+  const fetchFavorites = async () => {
+    try {
+      const userFavorite = await getFavoriteBytUser() // Gọi API lấy danh sách yêu thích của người dùng
+      setFavorite(userFavorite.data.user.favorites)
+
+      // Kiểm tra xem truyện hiện tại có trong danh sách yêu thích không
+      const isFavoriteManga = userFavorite.data.user.favorites.some(
+        (fav: any) => fav.slug === slug // So sánh slug từ URL với slug trong danh sách yêu thích
+      )
+
+      setIsFavorite(isFavoriteManga) // Cập nhật trạng thái
+    } catch (error) {
+      console.error('Error fetching favorites:', error)
     }
   }
 

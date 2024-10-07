@@ -10,6 +10,7 @@ import { comics, comicSingleChapter } from '@/types/data'
 import { Helmet } from 'react-helmet-async'
 import { getMangaBySlugAndChapter } from '@/services/mangaService/getManga'
 import { DownArrowIcon, LeftArrowIcon, RightArrowIcon } from '@/components/Icon'
+import { updateHistory } from '@/services/historyService/updateHistory'
 
 const ComicsChapter = () => {
   const { slug, slug_chapter } = useParams()
@@ -46,10 +47,16 @@ const ComicsChapter = () => {
     const fetchData = async () => {
       try {
         const data = await getMangaBySlugAndChapter(slug, slug_chapter)
+
         setManga(data.data)
 
         const chapter = data.data.chapters.find((c: { slug: string }) => c.slug === slug_chapter)
         setChapter(chapter)
+
+        // Gọi API update history khi load thành công dữ liệu chapter
+        if (chapter) {
+          await updateHistory(data.data.manga_id, chapter.chapter_id)
+        }
 
         setIsFetching(false)
       } catch (error) {
