@@ -37,7 +37,7 @@ export type comics = {
   title: string
   total_comments: string
   views: number
-  updated_at: string
+  updatedAt: string
 }
 
 export type dataGenres = {
@@ -95,7 +95,7 @@ export type comicsComment = {
     mention_user: string
   }
 
-  created_at: string
+  createdAt: string
   vote_count: number
 
   total_comments: number
@@ -104,6 +104,8 @@ export type comicsComment = {
 }
 
 export type comicSingleChapter = {
+  chapter_id: string
+
   title: string
   images: [
     {

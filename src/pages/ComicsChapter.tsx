@@ -11,6 +11,7 @@ import { Helmet } from 'react-helmet-async'
 import { getMangaBySlugAndChapter } from '@/services/mangaService/getManga'
 import { DownArrowIcon, LeftArrowIcon, RightArrowIcon } from '@/components/Icon'
 import { updateHistory } from '@/services/historyService/updateHistory'
+import { getCurrentUser } from '@/services/userService/getUser'
 
 const ComicsChapter = () => {
   const { slug, slug_chapter } = useParams()
@@ -51,11 +52,22 @@ const ComicsChapter = () => {
         setManga(data.data)
 
         const chapter = data.data.chapters.find((c: { slug: string }) => c.slug === slug_chapter)
+        console.log(chapter)
+
         setChapter(chapter)
 
-        // Gọi API update history khi load thành công dữ liệu chapter
         if (chapter) {
-          await updateHistory(data.data.manga_id, chapter.chapter_id)
+          try {
+            const user = await getCurrentUser()
+
+            if (user) {
+              // If the user is logged in, update the history
+              await updateHistory(data.data.manga_id, chapter.chapter_id)
+            }
+          } catch (error) {
+            console.error('Error fetching user:', error)
+            // If fetching user fails, the user is not logged in, and we proceed without saving history.
+          }
         }
 
         setIsFetching(false)
@@ -254,7 +266,7 @@ const ComicsChapter = () => {
             </div>
           </div>
         )}
-        {slug && <ListComment id={slug} />}
+        {manga && <ListComment manga_id={manga.manga_id} chapter_id={chapter?.chapter_id} />}
       </div>
     </>
   )

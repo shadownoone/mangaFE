@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { ListPreviewComics } from '.'
 import { DocumentIcon, LeftArrowIcon, RightArrowIcon } from '../Icon'
+import { timeAgo } from '@/utils/formatNumber'
 interface Props {
   data: comics[]
 }
@@ -119,7 +120,7 @@ export const renderSwiperSlide = (data: comics[], perView: number, gap: string) 
                 >
                   {item.title}
                 </Link>
-                <span className='text-sm text-gray-400'>{item.updated_at}</span>
+                <span className='text-sm text-gray-400'>{timeAgo(item.updatedAt)}</span>
               </div>
               <div>
                 <p className='inline-block text-black dark:text-white'>

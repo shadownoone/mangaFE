@@ -9,7 +9,7 @@ import { CardItem } from '..'
 import imgError from '/img-error.webp'
 import { useMediaQuery } from 'react-responsive'
 import { ListPreviewComics } from '.'
-import { formatCurrency } from '@/utils/formatNumber'
+import { formatCurrency, timeAgo } from '@/utils/formatNumber'
 import { DocumentIcon } from '../Icon'
 interface Props {
   data: comics[]
@@ -97,7 +97,7 @@ const SlidePreviewComics = ({ data }: Props) => {
                             </Link>
                           </div>
                           <span className='text-base text-gray-400 mt-4 block'>
-                            {item.updated_at}
+                            {timeAgo(item.updatedAt)}
                           </span>
                           <p className='text-base mt-1 block truncate'>
                             <span className='mr-1 text-gray-400'>Cập nhật:</span>

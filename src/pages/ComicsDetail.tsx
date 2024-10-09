@@ -1,4 +1,4 @@
-import { ListChapter, RatingStar, SuggestComics } from '@/components'
+import { ListChapter, ListComment, RatingStar, SuggestComics } from '@/components'
 import { useScrollTop } from '@/hooks'
 import { formatCurrency } from '@/utils/formatNumber'
 import PATH from '@/utils/path'
@@ -350,7 +350,10 @@ const ComicsDetail = () => {
                       )}
                       {!manga && skeletonListChapter()}
                     </section>
-                    {/* <section className='mt-2'>{id && <ListComment id={id} />}</section> */}
+                    {/* Comments Mangas */}
+                    <section className='mt-2'>
+                      {manga && <ListComment manga_id={manga.manga_id} />}
+                    </section>
                   </div>
                   <div className='flex-shrink-0 w-[238px] hidden md:flex flex-col gap-6'>
                     <div className='sticky top-[50px]'>

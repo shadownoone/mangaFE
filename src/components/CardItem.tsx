@@ -2,13 +2,14 @@ import PATH from '@/utils/path'
 import { Link } from 'react-router-dom'
 import imgError from '/img-error.webp'
 import { comics } from '@/types/data'
+import { timeAgo } from '@/utils/formatNumber'
 
 interface Props {
   data: comics
 }
 
 const CardItem = ({ data }: Props) => {
-  const { manga_id, cover_image, title, updated_at, description, chapters = [], slug } = data
+  const { manga_id, cover_image, title, updatedAt, description, chapters = [], slug } = data
 
   // Kiểm tra xem chapters có ít nhất một phần tử không
   const firstChapterSlug = chapters.length > 0 ? chapters[0]?.slug : ''
@@ -48,7 +49,7 @@ const CardItem = ({ data }: Props) => {
               >
                 {title}
               </Link>
-              <span className='text-sm text-gray-400 block'>{updated_at}</span>
+              <span className='text-sm text-gray-400 block'>{timeAgo(updatedAt)}</span>
               <p className='text-sm mt-[2px] inline-block text-black dark:text-white'>
                 <span className='mr-1'>Cập nhật:</span>
                 <Link
@@ -79,7 +80,7 @@ const CardItem = ({ data }: Props) => {
         >
           {title}
         </Link>
-        <span className='text-sm text-gray-400 mt-2'>{updated_at}</span>
+        <span className='text-sm text-gray-400 mt-2'>{timeAgo(updatedAt)}</span>
         <p className='inline-block text-sm truncate'>
           <span className='mr-1'>Cập nhật:</span>
           <Link

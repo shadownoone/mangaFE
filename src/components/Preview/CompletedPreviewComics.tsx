@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import imgError from '/img-error.webp'
 import { useMediaQuery } from 'react-responsive'
 import { ListPreviewComics } from '.'
-import { formatCurrency } from '@/utils/formatNumber'
+import { formatCurrency, timeAgo } from '@/utils/formatNumber'
 import { DocumentIcon } from '../Icon'
 interface Props {
   data: comics[]
@@ -56,7 +56,9 @@ const CompletedPreviewComics = ({ data }: Props) => {
                     {data[currentIndex].title}
                   </Link>
                   <div className='flex items-center gap-5 mt-2'>
-                    <span className='text-sm text-gray-400'>{data[currentIndex].updated_at}</span>
+                    <span className='text-sm text-gray-400'>
+                      {timeAgo(data[currentIndex].updatedAt)}
+                    </span>
                     <p className='text-sm block truncate'>
                       <span className='mr-1 text-gray-400'>Cập nhật:</span>
                       <Link
@@ -139,7 +141,9 @@ const CompletedPreviewComics = ({ data }: Props) => {
                         >
                           {item.title}
                         </Link>
-                        <span className='text-sm text-gray-400 mt-2'>{item.updated_at}</span>
+                        <span className='text-sm text-gray-400 mt-2'>
+                          {timeAgo(item.updatedAt)}
+                        </span>
                         <p className='inline-block text-sm truncate text-black dark:text-white'>
                           <span className='mr-1'>Cập nhật:</span>
                           <Link
