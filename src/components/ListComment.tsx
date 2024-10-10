@@ -4,9 +4,9 @@ import { useState, useRef, useEffect } from 'react'
 import imgLoading from '/loading.gif'
 import avatarUser from '../../assets/img/avatarUser.webp'
 
-import { getCommentByManga, addComment } from '@/services/commentService/getComment'
+import { getCommentByManga, addComment, deleteComment } from '@/services/commentService/index'
 import { getCurrentUser } from '@/services/userService/getUser'
-import { CommentIcon, LeftArrowIcon, LikeIcon, RightArrowIcon } from './Icon'
+import { CommentIcon, DeleteIcon, LeftArrowIcon, LikeIcon, RightArrowIcon } from './Icon'
 import { comicsComment } from '@/types/data'
 import { timeAgo } from '@/utils/formatNumber'
 
@@ -17,7 +17,22 @@ const ListComment = ({ manga_id, chapter_id }: { manga_id: any; chapter_id?: any
   const [loading, setLoading] = useState(true) // Track loading state
   const [error, setError] = useState(false) // Track error state
   const [newComment, setNewComment] = useState('')
+  const [currentUsers, setCurrentUsers] = useState<any>(null)
 
+  const commentsPerPage = 7
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const user = await getCurrentUser()
+        setCurrentUsers(user.data)
+        console.log(user.data)
+      } catch (error) {
+        console.error('Error fetching current user:', error)
+      }
+    }
+    fetchCurrentUser()
+  }, [])
   // Reset page when manga_id changes
   useEffect(() => {
     setPage(1)
@@ -46,9 +61,27 @@ const ListComment = ({ manga_id, chapter_id }: { manga_id: any; chapter_id?: any
     }
   }, [manga_id, chapter_id, page]) // Refetch comments if manga_id or page changes
 
+  // Pagination logic
+  const indexOfLastComment = page * commentsPerPage
+  const indexOfFirstComment = indexOfLastComment - commentsPerPage
+  const currentComments = comment.slice(indexOfFirstComment, indexOfLastComment)
+  const totalPages = Math.ceil(comment.length / commentsPerPage)
+
   const PrevPage = () => {
     if (page > 1) {
       setPage((prev) => prev - 1)
+    }
+    if (el.current) {
+      window.scroll({
+        behavior: 'smooth',
+        top: el.current.offsetTop
+      })
+    }
+  }
+
+  const NextPage = () => {
+    if (page < totalPages) {
+      setPage((prev) => prev + 1)
     }
     if (el.current) {
       window.scroll({
@@ -61,18 +94,26 @@ const ListComment = ({ manga_id, chapter_id }: { manga_id: any; chapter_id?: any
     e.preventDefault() // Prevent default form submission
 
     try {
-      const currentUser = await getCurrentUser()
-      if (!currentUser) {
-        console.log('Bạn phải đăng nhập để bình luận')
-        return
-      }
+      //       const currentUser = await getCurrentUser()
+      //
+      //       if (!currentUser) {
+      //         console.log('Bạn phải đăng nhập để bình luận')
+      //         return
+      //       }
       // Add comment API call
       await addComment(manga_id, newComment, chapter_id || undefined)
-      console.log('Bình luận đã gửi:', newComment)
-      console.log('Chapter đã gửi:', chapter_id)
+
       setNewComment('') // Clear input after submission
     } catch (error) {
       console.error('Lỗi khi thêm bình luận:', error)
+    }
+  }
+
+  const handleDeleteComment = async (commentId: any) => {
+    try {
+      await deleteComment(commentId)
+    } catch (error) {
+      console.error('Error removing comment:', error)
     }
   }
 
@@ -104,6 +145,7 @@ const ListComment = ({ manga_id, chapter_id }: { manga_id: any; chapter_id?: any
               </button>
               <button
                 title='Sau'
+                onClick={NextPage}
                 // Add pagination logic for next page here
                 className={classNames(
                   'px-[10px] py-2 rounded-md border dark:border-gray-500 flex justify-center active:scale-95',
@@ -152,7 +194,7 @@ const ListComment = ({ manga_id, chapter_id }: { manga_id: any; chapter_id?: any
           // Render fetched comments
 
           <ul>
-            {comment.map((item, i) => (
+            {currentComments.map((item, i) => (
               <li key={i}>
                 <div className='flex gap-[10px] pb-5'>
                   <img
@@ -182,6 +224,15 @@ const ListComment = ({ manga_id, chapter_id }: { manga_id: any; chapter_id?: any
                           <CommentIcon className='w-5 h-5 mr-[2px]' />
                           {/* Add reply count if applicable */}
                         </div>
+
+                        {currentUsers?.user_id === item.user_id && (
+                          <div
+                            className='flex items-center cursor-pointer'
+                            onClick={() => handleDeleteComment(item.comment_id)}
+                          >
+                            <DeleteIcon className='w-5 h-5 mr-[2px]' />
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

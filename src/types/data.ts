@@ -78,6 +78,7 @@ export type comicsChapter = {
 }[]
 
 export type comicsComment = {
+  comment_id: any
   avatar: string
   username: string
   chapter: {
@@ -85,6 +86,7 @@ export type comicsComment = {
   }
   content: string
   stickers: [string]
+  user_id: any
   user: {
     avatar: string
     username: string

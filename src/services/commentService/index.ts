@@ -26,3 +26,16 @@ export const addComment = async (manga_id: string, content: string, chapter_id?:
     throw error // Bắn ra lỗi nếu có vấn đề
   }
 }
+
+export const deleteComment = async (commentId: any) => {
+  try {
+    const response = await axiosClients.delete('/comments/delete', {
+      data: { commentId }
+    })
+
+    alert(response.data.message)
+  } catch (error) {
+    console.error('Error delete to comments:', error)
+    alert('Failed to delete to comments.')
+  }
+}

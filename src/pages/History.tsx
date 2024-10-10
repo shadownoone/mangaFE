@@ -8,8 +8,6 @@ import { getHistoryBytUser } from '@/services/userService/getUser'
 import { history } from '@/types/data'
 
 const History = () => {
-  // const [dataComics, setDataComics] = useState([])
-
   const [readingHistory, setReadingHistory] = useState<history[]>([])
 
   useEffect(() => {
@@ -24,23 +22,6 @@ const History = () => {
 
     fetchData()
   }, [])
-
-  // useEffect(() => {
-  //   const db = window.db
-  //   const trans = db.transaction('history', 'readwrite')
-  //   const store = trans.objectStore('history')
-  //   const cursorRequest = store.index('reading_at').openCursor(null, 'prevunique')
-  //   const response: any = []
-  //   cursorRequest.onsuccess = () => {
-  //     const cursor = cursorRequest.result
-  //     if (cursor) {
-  //       response.push(cursor.value)
-  //       cursor.continue()
-  //     } else {
-  //       setDataComics(response)
-  //     }
-  //   }
-  // }, [window.db.transaction('history', 'readwrite')])
 
   return (
     <>
@@ -92,7 +73,7 @@ const History = () => {
                   <div className='flex text-black dark:text-white'>
                     <Link to={`${PATH.comics}/${historyItem.slug}`} className='flex-shrink-0'>
                       <img
-                        src={historyItem.imageTitle} // Replace with a real image if available
+                        src={historyItem.imageTitle}
                         alt={historyItem.mangaTitle}
                         className='w-[165px] h-[220px] object-cover'
                         onError={({ currentTarget }) => {
@@ -118,6 +99,20 @@ const History = () => {
                       <p className='text-sm mt-1'>
                         Đọc lần cuối: {new Date(historyItem.last_read_at).toLocaleString()}
                       </p>
+                      <div className='flex flex-col md:flex-row items-center gap-1 md:gap-3 mt-auto mb-4 md:mb-0'>
+                        <Link
+                          to={`/comics/${historyItem.slug}/${historyItem.chapterSlug}`}
+                          className='border-[#4b8fd7] rounded-md w-full h-9 flex items-center justify-center border text-[#4b8fd7] active:scale-90'
+                        >
+                          Đọc tiếp
+                        </Link>
+                        <button
+                          // onClick={() => historyDeleteComic(item.id)}
+                          className='border-primary rounded-md w-full h-9 flex items-center justify-center border text-primary active:scale-90'
+                        >
+                          Xóa
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
