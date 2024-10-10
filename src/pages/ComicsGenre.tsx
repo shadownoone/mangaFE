@@ -48,7 +48,7 @@ const ComicsList = () => {
         } else {
           const data = await getMangaByGenre(type, queryConfig)
           setMangas(data.data)
-          console.log(type)
+          console.log(data.data)
 
           setTotalPage(data.data.total_pages)
         }
@@ -100,7 +100,7 @@ const ComicsList = () => {
                 </Link>
               </li>
             ))}
-          {/* {!dataGenreComics && skeletonGenre()} */}
+          {skeletonGenre()}
         </ul>
       </div>
 
@@ -168,19 +168,19 @@ const ComicsList = () => {
 }
 export default ComicsList
 
-// const skeletonGenre = () => {
-//   return (
-//     <>
-//       {Array(24)
-//         .fill(0)
-//         .map((_, i) => (
-//           <li key={i} className='col-span-1 flex-shrink-0'>
-//             <div className='min-w-[130px] h-[34px] px-12 py-2 bg-gray-200 rounded-md dark:bg-gray-700' />
-//           </li>
-//         ))}
-//     </>
-//   )
-// }
+const skeletonGenre = () => {
+  return (
+    <>
+      {Array(24)
+        .fill(0)
+        .map((_, i) => (
+          <li key={i} className='col-span-1 flex-shrink-0'>
+            <div className='min-w-[130px] h-[34px] px-12 py-2 bg-gray-200 rounded-md dark:bg-gray-700' />
+          </li>
+        ))}
+    </>
+  )
+}
 
 const skeletonListComic = () => {
   return (

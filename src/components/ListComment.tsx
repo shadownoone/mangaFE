@@ -32,18 +32,6 @@ const ListComment = ({ manga_id, chapter_id }: { manga_id: any; chapter_id?: any
 
   const commentsPerPage = 7
 
-  const replies = [
-    {
-      avatar: 'string',
-      username: 'string',
-      content: 'string',
-      stickers: ['string'],
-      created_at: 'string',
-      vote_count: 1,
-      mention_user: 'string'
-    }
-  ]
-
   // Fetch comments based on manga_id and page
   useEffect(() => {
     const fetchComment = async () => {
@@ -99,12 +87,10 @@ const ListComment = ({ manga_id, chapter_id }: { manga_id: any; chapter_id?: any
     e.preventDefault() // Prevent default form submission
 
     try {
-      //       const currentUser = await getCurrentUser()
-      //
-      //       if (!currentUser) {
-      //         console.log('Bạn phải đăng nhập để bình luận')
-      //         return
-      //       }
+      if (!currentUser) {
+        alert('Bạn phải đăng nhập để bình luận')
+        return
+      }
       // Add comment API call
       await addComment(manga_id, newComment, chapter_id || undefined)
 
@@ -184,7 +170,7 @@ const ListComment = ({ manga_id, chapter_id }: { manga_id: any; chapter_id?: any
           <CKEditor
             editor={ClassicEditor}
             data={newComment} // Dữ liệu khởi tạo
-            onChange={(event, editor) => {
+            onChange={(_, editor) => {
               const data = editor.getData() // Lấy dữ liệu từ CKEditor
               setNewComment(data) // Cập nhật state
             }}
@@ -264,7 +250,7 @@ const ListComment = ({ manga_id, chapter_id }: { manga_id: any; chapter_id?: any
                         )}
                       </div>
                     </div>
-                    {replies?.length > 0 &&
+                    {/* {replies?.length > 0 &&
                       replies.map((itemReply: any, i) => (
                         <div
                           key={i}
@@ -334,7 +320,7 @@ const ListComment = ({ manga_id, chapter_id }: { manga_id: any; chapter_id?: any
                             </div>
                           </div>
                         </div>
-                      ))}
+                      ))} */}
                   </div>
                 </div>
               </li>

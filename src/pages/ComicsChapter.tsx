@@ -52,7 +52,6 @@ const ComicsChapter = () => {
         setManga(data.data)
 
         const chapter = data.data.chapters.find((c: { slug: string }) => c.slug === slug_chapter)
-        console.log(chapter)
 
         setChapter(chapter)
 
