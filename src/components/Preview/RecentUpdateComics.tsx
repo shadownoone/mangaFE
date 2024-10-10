@@ -114,7 +114,7 @@ export const renderSwiperSlide = (data: comics[], perView: number, gap: string) 
             <div className='pl-[15px] pr-2 leading-5 flex flex-col flex-1 justify-around overflow-hidden'>
               <div>
                 <Link
-                  to={`${PATH.comics}/${item}`}
+                  to={`${PATH.comics}/${item.slug}`}
                   className='text-black hover:text-primary dark:text-white dark:hover:text-primary text-lg font-bold leading-5 line-clamp-1'
                   title={item.title}
                 >
@@ -137,11 +137,12 @@ export const renderSwiperSlide = (data: comics[], perView: number, gap: string) 
               </div>
               <div className='flex gap-1 items-center'>
                 Thể loại:
-                {item.genres.slice(0, 3).map((genre) => {
+                {item.genres.slice(0, 3).map((genre, index) => {
                   // console.log(genre)
 
                   return (
                     <Link
+                      key={index}
                       title={genre.name}
                       to={{
                         pathname: PATH.genres,
@@ -150,7 +151,6 @@ export const renderSwiperSlide = (data: comics[], perView: number, gap: string) 
                           page: '1'
                         }).toString()
                       }}
-                      key={genre.id}
                     >
                       <span className='py-[2px] px-1 text-[13px] text-gray-400 dark:text-gray-300 dark:hover:text-primary border-[#d9d9d9] hover:text-primary hover:border-primary border border-dashed truncate'>
                         {genre.name}

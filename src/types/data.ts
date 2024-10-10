@@ -84,6 +84,7 @@ export type comicsComment = {
   chapter: {
     title: string
   }
+
   content: string
   stickers: [string]
   user_id: any
@@ -96,6 +97,18 @@ export type comicsComment = {
     vote_count: number
     mention_user: string
   }
+
+  replies: [
+    {
+      avatar: string
+      username: string
+      content: string
+      stickers: [string]
+      created_at: string
+      vote_count: number
+      mention_user: string
+    }
+  ]
 
   createdAt: string
   vote_count: number
@@ -155,6 +168,7 @@ export type history = {
 }
 
 export type user = {
+  user_id: number
   avatar: string
 }
 

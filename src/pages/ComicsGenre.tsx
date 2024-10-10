@@ -48,6 +48,8 @@ const ComicsList = () => {
         } else {
           const data = await getMangaByGenre(type, queryConfig)
           setMangas(data.data)
+          console.log(type)
+
           setTotalPage(data.data.total_pages)
         }
       } catch (error) {
@@ -60,12 +62,12 @@ const ComicsList = () => {
   return (
     <>
       <Helmet>
-        <title>{`Truyện Thể loại ${genre?.find((item) => item.genre_id === type)
+        <title>{`Truyện Thể loại ${genre?.find((item) => item.name === type)
           ?.name} - VTruyen`}</title>
         <meta
           name='description'
           content={`Truyện Thể loại ${genre?.find((item) => item.genre_id === type)
-            ?.name} - ${genre?.find((item) => item.genre_id === type)?.description}`}
+            ?.name} - ${genre?.find((item) => item.genre_id === type)?.name}`}
         />
       </Helmet>
 

@@ -3,6 +3,9 @@ import PATH from './utils/path'
 import { lazy, Suspense, useEffect } from 'react'
 import { ChapterLayout, MainLayout } from './layouts'
 import { initLocalDb } from './utils/history'
+import { getCurrentUser } from './services/userService/getUser'
+import { useDispatch } from 'react-redux'
+import { addCurrentUser } from './features/user/userSlice'
 
 const ComicsList = lazy(() => import('./pages/ComicsList'))
 const ComicsGenre = lazy(() => import('./pages/ComicsGenre'))
@@ -19,6 +22,8 @@ const Register = lazy(() => import('./pages/Register'))
 const Profile = lazy(() => import('./pages/Profile'))
 
 function App() {
+  const dispatch = useDispatch()
+
   useEffect(() => {
     initLocalDb()
     document.body.classList.add('dark:bg-gray-900')
@@ -30,15 +35,15 @@ function App() {
     }
   }, [])
 
-  //   useEffect(() => {
-  //     const fetchUser = async () => {
-  //       const currentUser = await getCurrentUser()
-  //
-  //       console.log(currentUser)
-  //     }
-  //
-  //     fetchUser()
-  //   }, [])
+  useEffect(() => {
+    const fetchUser = async () => {
+      const currentUser = await getCurrentUser()
+
+      dispatch(addCurrentUser(currentUser.data))
+    }
+
+    fetchUser()
+  }, [])
 
   const router = createBrowserRouter([
     {

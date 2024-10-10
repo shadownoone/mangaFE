@@ -52,8 +52,8 @@ const SlidePreviewComics = ({ data }: Props) => {
                       slideShadows: false
                     }}
                   >
-                    {data.slice(0, 5).map((item) => (
-                      <SwiperSlide key={item.id}>
+                    {data.slice(0, 5).map((item, index) => (
+                      <SwiperSlide key={index}>
                         {({ isActive }) => (
                           <Link to={`${PATH.comics}/${item.slug}`}>
                             <img
