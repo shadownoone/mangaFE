@@ -6,6 +6,7 @@ import { historyDeleteComics } from '@/utils/history'
 import { Helmet } from 'react-helmet-async'
 import { getHistoryBytUser } from '@/services/userService/getUser'
 import { history } from '@/types/data'
+import { handleDeleteToHistory } from '@/services/historyService/updateHistory'
 
 const History = () => {
   const [readingHistory, setReadingHistory] = useState<history[]>([])
@@ -15,6 +16,7 @@ const History = () => {
       try {
         const data = await getHistoryBytUser()
         setReadingHistory(data.data.user.readingHistory)
+        console.log(data.data.user.readingHistory)
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -22,6 +24,16 @@ const History = () => {
 
     fetchData()
   }, [])
+
+  // Hàm để xử lý việc bỏ yêu thích
+  const handleRemoveHistory = async (historyId: any) => {
+    try {
+      await handleDeleteToHistory(historyId) // Gọi API xóa yêu thích
+      setReadingHistory((prevHistory) => prevHistory.filter((his) => his.historyId !== historyId)) // Update local state
+    } catch (error) {
+      console.error('Error removing history:', error)
+    }
+  }
 
   return (
     <>
@@ -107,7 +119,7 @@ const History = () => {
                           Đọc tiếp
                         </Link>
                         <button
-                          // onClick={() => historyDeleteComic(item.id)}
+                          onClick={() => handleRemoveHistory(historyItem.historyId)}
                           className='border-primary rounded-md w-full h-9 flex items-center justify-center border text-primary active:scale-90'
                         >
                           Xóa

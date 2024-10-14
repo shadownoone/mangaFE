@@ -115,6 +115,7 @@ const ComicsDetail = () => {
       try {
         await handleAddToFavorites(manga.manga_id)
         setIsFavorite(true)
+
         await fetchFavorites()
       } catch (error) {
         alert('Failed to add to favorites.')

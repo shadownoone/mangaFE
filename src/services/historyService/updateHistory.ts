@@ -12,3 +12,16 @@ export const updateHistory = async (mangaId: number, chapterId: number) => {
     throw error
   }
 }
+
+export const handleDeleteToHistory = async (historyId: any) => {
+  try {
+    const response = await axiosClients.delete('/histories/delete', {
+      data: { historyId }
+    })
+
+    alert(response.data.message)
+  } catch (error) {
+    console.error('Error delete to histories:', error)
+    alert('Failed to delete to histories.')
+  }
+}

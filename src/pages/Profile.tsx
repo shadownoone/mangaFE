@@ -1,9 +1,15 @@
 import { getCurrentUser } from '@/services/userService/getUser'
-import { updateProfile } from '@/services/userService/updateUser'
+import {
+  updateProfile,
+  uploadMultipleImages,
+  uploadSingleImage
+} from '@/services/userService/updateUser'
 import PATH from '@/utils/path'
 import avatarUser from '../../assets/img/avatarUser.webp'
+import assets from '../../assets/img/assets.gif'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import ModalImage from 'react-modal-image'
 
 interface UserProfile {
   avatar: string
@@ -17,7 +23,62 @@ const Profile = () => {
   const [user, setUser] = useState<UserProfile | null>(null)
   const [editMode, setEditMode] = useState<boolean>(false)
   const [newUsername, setNewUsername] = useState<string>('')
-  const [newAvatar, setNewAvatar] = useState<File | null>(null) // New avatar
+
+  const [loading, setLoading] = useState(false)
+  const [url, setUrl] = useState('')
+
+  const convertBase64 = (file: any) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader()
+      fileReader.readAsDataURL(file)
+
+      fileReader.onload = () => {
+        resolve(fileReader.result)
+      }
+
+      fileReader.onerror = (error) => {
+        reject(error)
+      }
+    })
+  }
+
+  const uploadImage = async (event: any) => {
+    const files = event.target.files
+    console.log(files.length)
+
+    if (files.length === 1) {
+      const base64 = await convertBase64(files[0])
+
+      try {
+        setLoading(true) // Set loading to true before the upload starts
+        const uploadedUrl = await uploadSingleImage(base64) // Call your upload function
+        setUrl(uploadedUrl) // Set the returned URL
+        alert('Image uploaded successfully')
+      } catch (error) {
+        console.error('Error uploading image:', error)
+      } finally {
+        setLoading(false) // Set loading to false after the upload finishes
+      }
+
+      return
+    }
+
+    const base64s = []
+    for (var i = 0; i < files.length; i++) {
+      var base = await convertBase64(files[i])
+      base64s.push(base)
+    }
+    try {
+      setLoading(true) // Start loading
+      const uploadedUrls = await uploadMultipleImages(base64s) // Call the service for multiple images
+      setUrl(uploadedUrls) // Set the returned URLs after the upload
+      alert('Images uploaded successfully')
+    } catch (error) {
+      console.error('Error uploading multiple images:', error)
+    } finally {
+      setLoading(false) // End loading after the request finishes
+    }
+  }
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -37,17 +98,11 @@ const Profile = () => {
 
   const handleSave = async () => {
     try {
-      // Assuming newAvatar is a file or image URL
       const updateData = new FormData() // Use FormData for file handling
 
       updateData.append('username', newUsername)
-
-      if (newAvatar) {
-        // Append avatar only if there's a valid newAvatar
-        updateData.append('avatar', newAvatar) // newAvatar should be a file or a valid string (URL)
-      } else {
-        // You can choose to append the current avatar if no new avatar is selected, or leave it out
-        updateData.append('avatar', user?.avatar || '') // Send the current avatar or an empty string
+      if (url) {
+        updateData.append('avatar', url) // Add the uploaded avatar URL to FormData
       }
 
       const response = await updateProfile(updateData)
@@ -58,7 +113,7 @@ const Profile = () => {
             prev && {
               ...prev,
               username: newUsername,
-              avatar: newAvatar ? URL.createObjectURL(newAvatar) : prev?.avatar
+              avatar: url
             }
         )
         setEditMode(false)
@@ -76,11 +131,16 @@ const Profile = () => {
     <div className='container mx-auto my-8 p-4'>
       <div className='bg-white shadow-lg rounded-lg overflow-hidden'>
         <div className='flex items-center p-6 bg-gray-800 text-white'>
-          <img
-            className='w-32 h-32 rounded-full object-cover border-4 border-white'
-            src={user.avatar ? user.avatar : avatarUser}
-            alt='Avatar'
-          />
+          {loading ? (
+            <img src={assets} alt='Uploading...' className='w-32 h-32' /> // Show loading GIF
+          ) : (
+            <ModalImage
+              className='w-32 h-32 rounded-full object-cover border-4 border-white'
+              small={url ? url : user.avatar ? user.avatar : avatarUser} // Small version of the image
+              large={url ? url : user.avatar ? user.avatar : avatarUser} // Large version when clicked
+              alt='Avatar'
+            />
+          )}
           <div className='ml-6'>
             <h2 className='text-3xl font-semibold'>{user.username}</h2>
             <p className='text-gray-300'>{user.email}</p>
@@ -148,7 +208,7 @@ const Profile = () => {
                 <input
                   type='file'
                   className='w-full border-gray-300 rounded-md p-2 mt-1'
-                  onChange={(e) => setNewAvatar(e.target.files ? e.target.files[0] : null)}
+                  onChange={uploadImage}
                 />
               ) : (
                 <img

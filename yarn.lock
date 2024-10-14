@@ -2217,6 +2217,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-modal-image@^2.6.3":
+  version "2.6.3"
+  resolved "https://registry.npmjs.org/@types/react-modal-image/-/react-modal-image-2.6.3.tgz"
+  integrity sha512-Uh4joinWiyRD2e4Q+MRiMiQfz7K7W16peF2xfEx821t7p6O6sG4xi42uuN5tsYhx1mTOsagUPqIQiWcYgKtkww==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@^18.2.15", "@types/react@^18.2.25", "@types/react@0.14 || 15 || 16 || 17 || 18":
   version "18.3.11"
   resolved "https://registry.npmjs.org/@types/react/-/react-18.3.11.tgz"
@@ -4713,6 +4720,11 @@ react-is@^16.13.1:
   version "16.13.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-modal-image@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.npmjs.org/react-modal-image/-/react-modal-image-2.6.0.tgz"
+  integrity sha512-NNc1xPKzFAn0VsNMdJ8NXt6c54aL/z0fcoYmw9qn4SBUONdGl+8LOQ0sTfo0wtdzcjLiby/ncloHcAL+UI+wIA==
 
 react-property@2.0.2:
   version "2.0.2"

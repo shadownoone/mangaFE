@@ -159,6 +159,7 @@ export type favorite = {
 }
 
 export type history = {
+  historyId: number
   slug: string
   imageTitle: string
   chapterSlug: string
