@@ -7,7 +7,8 @@ import {
   RecentUpdateComics,
   ListPreviewComics,
   SlidePreviewComics,
-  TopPreviewComics
+  TopPreviewComics,
+  VipPreviewComics
 } from '@/components/Preview'
 // import { useQueryConfig } from '@/hooks'
 import { comics } from '@/types/data'
@@ -16,11 +17,12 @@ import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
 import { Link, createSearchParams } from 'react-router-dom'
-import { getManga } from '@/services/mangaService/getManga'
-import { CompletedIcon, RightArrowIcon } from '@/components/Icon'
+import { getManga, getVipManga } from '@/services/mangaService/getManga'
+import { CompletedIcon, CrownIcon, RightArrowIcon } from '@/components/Icon'
 
 const Home: React.FC = () => {
   const [manga, setManga] = useState<comics[]>([])
+  const [vipManga, setVipManga] = useState<comics[]>([])
 
   useEffect(() => {
     ;(async () => {
@@ -29,7 +31,12 @@ const Home: React.FC = () => {
     })()
   }, [])
 
-  // const queryConfig = useQueryConfig()
+  useEffect(() => {
+    ;(async () => {
+      const data = await getVipManga()
+      setVipManga(data.data)
+    })()
+  }, [])
 
   return (
     <>
@@ -42,6 +49,30 @@ const Home: React.FC = () => {
       </Helmet>
       <div className='container px-4 xl:px-0'>
         <Banner />
+        <section className='mt-10'>
+          <div className='flex items-end'>
+            <div className='flex items-center gap-2 lg:gap-4'>
+              <CrownIcon className='w-10 h-10' />
+              <h2 className='capitalize font-semibold mt-1 text-2xl lg:text-[28px] text-black dark:text-white   animated-text'>
+                Truyện VIP
+              </h2>
+            </div>
+            <Link
+              title='Tất cả'
+              to={{
+                pathname: PATH.completed,
+                search: createSearchParams({
+                  page: '1'
+                }).toString()
+              }}
+              className='flex flex-1 justify-end items-center gap-1 text-sm text-black dark:text-white hover:text-primary dark:hover:text-primary'
+            >
+              <span>Tất cả</span>
+              <RightArrowIcon />
+            </Link>
+          </div>
+          <VipPreviewComics data={vipManga as comics[]} />
+        </section>
         <section className='mt-10'>
           {titleComicsPreview(iconRecentUpdate, 'Mới cập nhật', PATH.recent)}
           <RecentUpdateComics data={manga as comics[]} />

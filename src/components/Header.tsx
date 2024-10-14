@@ -7,7 +7,7 @@ import { SearchBar } from '.'
 import { useQueryConfig } from '@/hooks'
 import avatarUser from '../../assets/img/avatarUser.webp'
 
-import { DarkIcon, DarkOrLightIcon, HistoryIcon, UserIcon } from './Icon'
+import { CrownIcon, DarkIcon, DarkOrLightIcon, HistoryIcon, UserIcon } from './Icon'
 import { getCurrentUser } from '@/services/userService/getUser'
 import { user } from '@/types/data'
 import { handleLogout } from '@/services/Login/handleLogout'
@@ -202,8 +202,18 @@ const Header = () => {
               <img
                 src={user.avatar ? user.avatar : avatarUser}
                 alt='Avatar'
-                className='w-8 h-8 rounded-full object-cover'
+                className='w-10 h-10 rounded-full object-cover '
+                style={{
+                  padding: user.is_vip === 1 ? '2px' : '0', // Padding chỉ khi là VIP
+                  background:
+                    user.is_vip === 1 ? 'linear-gradient(180deg, #ffd900, #b45264 93.68%)' : 'none' // Không có nền nếu không phải là VIP
+                }}
               />
+              {user.is_vip === 1 && (
+                <div className='absolute top-0 -translate-y-1/2'>
+                  <CrownIcon className='w-4 h-4' />
+                </div>
+              )}
 
               {isDropdownOpen && (
                 <div className='absolute right-0 mt-9 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-50'>

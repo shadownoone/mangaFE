@@ -171,6 +171,8 @@ export type history = {
 export type user = {
   user_id: number
   avatar: string
+  is_vip: any
+  role: any
 }
 
 export type Rating = {

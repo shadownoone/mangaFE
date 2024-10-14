@@ -76,3 +76,61 @@ strong {
   border-radius: 5px;
   background: #ff416b;
 }
+.avatar-gradient {
+  background: linear-gradient(180deg, #ffd900, #b45264 93.68%);
+}
+@keyframes blink {
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 100%;
+  }
+}
+
+.animated-text {
+  background: linear-gradient(
+    270deg,
+    #ff0000,
+    #ff7f00,
+    #ffff00,
+    #00ff00,
+    #00ffff,
+    #0000ff,
+    #7f00ff
+  );
+  background-size: 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: blink 3s linear infinite;
+  font-weight: bold;
+}
+@keyframes rainbow {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.rainbow-border {
+  border: 4px solid transparent;
+  border-radius: 10px; /* Tùy chọn: Thêm bo tròn viền */
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7f00,
+    #ffff00,
+    #00ff00,
+    #00ffff,
+    #0000ff,
+    #7f00ff,
+    #ff0000
+  );
+  background-size: 200% 200%;
+  animation: rainbow 4s linear infinite; /* Thời gian và loại chuyển động */
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  padding: 2px; /* Để thêm một khoảng trống bên trong viền */
+}

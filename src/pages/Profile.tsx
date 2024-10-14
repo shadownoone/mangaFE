@@ -10,6 +10,7 @@ import assets from '../../assets/img/assets.gif'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import ModalImage from 'react-modal-image'
+import { CrownIcon } from '@/components/Icon'
 
 interface UserProfile {
   avatar: string
@@ -17,6 +18,7 @@ interface UserProfile {
   email: string
   role: number
   bio?: string
+  is_vip: any
 }
 
 const Profile = () => {
@@ -134,15 +136,28 @@ const Profile = () => {
           {loading ? (
             <img src={assets} alt='Uploading...' className='w-32 h-32' /> // Show loading GIF
           ) : (
-            <ModalImage
-              className='w-32 h-32 rounded-full object-cover border-4 border-white'
-              small={url ? url : user.avatar ? user.avatar : avatarUser} // Small version of the image
-              large={url ? url : user.avatar ? user.avatar : avatarUser} // Large version when clicked
-              alt='Avatar'
-            />
+            <div className='relative inline-block'>
+              <ModalImage
+                className='w-32 h-32 rounded-full object-cover border-white p-2 avatar-gradient'
+                small={url ? url : user.avatar ? user.avatar : avatarUser} // Small version of the image
+                large={url ? url : user.avatar ? user.avatar : avatarUser} // Large version when clicked
+                alt='Avatar'
+              />
+              {user.is_vip === 1 && ( // Kiểm tra nếu người dùng là VIP
+                <div
+                  className='absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2'
+                  style={{ top: '-10px' }} // Đặt vương miện lên cao hơn 10px
+                >
+                  <CrownIcon className='w-8 h-8' />
+                </div>
+              )}
+            </div>
           )}
           <div className='ml-6'>
-            <h2 className='text-3xl font-semibold'>{user.username}</h2>
+            <h2 className='text-3xl font-semibold'>
+              {user.username} {''}
+              <span className='font-bold text-xl animated-text'>VIP</span>
+            </h2>
             <p className='text-gray-300'>{user.email}</p>
             <p className='mt-2'>{user.bio}</p>
           </div>

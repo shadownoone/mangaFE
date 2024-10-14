@@ -46,3 +46,10 @@ export const getNewManga = async () => {
     return res.data
   })
 }
+
+// GET VipManga
+export const getVipManga = async () => {
+  return await axiosClients.get('/mangas/vip-manga').then((res: any) => {
+    return res.data
+  })
+}
