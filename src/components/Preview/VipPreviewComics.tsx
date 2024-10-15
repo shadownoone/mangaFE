@@ -11,6 +11,7 @@ import { getCurrentUser } from '@/services/userService/getUser'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import ListPreviewComics from './ListPreviewComics'
+import { createPaymentLink } from '@/services/paymentService'
 
 interface Props {
   data: comics[]
@@ -52,7 +53,7 @@ const VipPreviewComics = ({ data }: Props) => {
 
     if (!user.is_vip) {
       toast.warn('Bạn cần nâng cấp tài khoản VIP để xem truyện này.', { autoClose: 3000 })
-      setTimeout(() => 3000) // Trì hoãn điều hướng
+      setTimeout(() => createPaymentLink(), 3000) // Trì hoãn điều hướng
       return
     }
 

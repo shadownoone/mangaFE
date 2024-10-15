@@ -156,7 +156,7 @@ const Profile = () => {
           <div className='ml-6'>
             <h2 className='text-3xl font-semibold'>
               {user.username} {''}
-              <span className='font-bold text-xl animated-text'>VIP</span>
+              {user.is_vip === 1 && <span className='font-bold text-xl animated-text'>VIP</span>}
             </h2>
             <p className='text-gray-300'>{user.email}</p>
             <p className='mt-2'>{user.bio}</p>
