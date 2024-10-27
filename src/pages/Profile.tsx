@@ -1,9 +1,5 @@
 import { getCurrentUser } from '@/services/userService/getUser'
-import {
-  updateProfile,
-  uploadMultipleImages,
-  uploadSingleImage
-} from '@/services/userService/updateUser'
+import { updateProfile, uploadSingleImage } from '@/services/userService/updateUser'
 import PATH from '@/utils/path'
 import avatarUser from '../../assets/img/avatarUser.webp'
 import assets from '../../assets/img/assets.gif'
