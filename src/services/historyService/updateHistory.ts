@@ -1,4 +1,5 @@
 import { axiosClients } from '@/apis/axiosClients'
+import { toast } from 'react-toastify'
 
 export const updateHistory = async (mangaId: number, chapterId: number) => {
   try {
@@ -19,7 +20,7 @@ export const handleDeleteToHistory = async (historyId: any) => {
       data: { historyId }
     })
 
-    alert(response.data.message)
+    toast.success(response.data.message)
   } catch (error) {
     console.error('Error delete to histories:', error)
     alert('Failed to delete to histories.')

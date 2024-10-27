@@ -1,4 +1,5 @@
 import { axiosClients } from '@/apis/axiosClients'
+import { toast } from 'react-toastify'
 
 export const handleAddToFavorites = async (mangaId: any) => {
   try {
@@ -6,7 +7,7 @@ export const handleAddToFavorites = async (mangaId: any) => {
       manga_id: mangaId
     })
 
-    alert(response.data.message)
+    toast.success(response.data.message)
   } catch (error) {
     console.error('Error adding to favorites:', error)
     alert('Failed to add to favorites.')
@@ -19,7 +20,7 @@ export const handleDeleteToFavorites = async (favoriteId: any) => {
       data: { favorite_id: favoriteId }
     })
 
-    alert(response.data.message)
+    toast.success(response.data.message)
   } catch (error) {
     console.error('Error delete to favorites:', error)
     alert('Failed to delete to favorites.')

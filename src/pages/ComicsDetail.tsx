@@ -2,6 +2,8 @@ import { ListChapter, ListComment, RatingStar, SuggestComics } from '@/component
 import { useScrollTop } from '@/hooks'
 import { formatCurrency } from '@/utils/formatNumber'
 import PATH from '@/utils/path'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import { Link, createSearchParams, useParams } from 'react-router-dom'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -107,7 +109,7 @@ const ComicsDetail = () => {
   // Function to handle adding to favorites
   const handleAddFavorite = async () => {
     if (!currentUser) {
-      alert('Please Login')
+      toast.warning('Please Login')
       return
     }
 
@@ -118,7 +120,7 @@ const ComicsDetail = () => {
 
         await fetchFavorites()
       } catch (error) {
-        alert('Failed to add to favorites.')
+        toast.error('Failed to add to favorites.')
       }
     }
   }
@@ -180,6 +182,7 @@ const ComicsDetail = () => {
       </Helmet>
       {!(Number(manga?.status) === 404) && (
         <>
+          <ToastContainer position='top-right' autoClose={3000} />
           <div className='w-full min-h-[400px] relative overflow-hidden'>
             <p
               className='bg-no-repeat bg-cover h-[400px]'

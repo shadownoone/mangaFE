@@ -1,4 +1,5 @@
 import { axiosClients } from '@/apis/axiosClients'
+import { toast } from 'react-toastify'
 
 export const getComment = async () => {
   return await axiosClients.get('/comments/all').then((res: any) => {
@@ -32,8 +33,7 @@ export const deleteComment = async (commentId: any) => {
     const response = await axiosClients.delete('/comments/delete', {
       data: { commentId }
     })
-
-    alert(response.data.message)
+    toast.success(response.data.message)
   } catch (error) {
     console.error('Error delete to comments:', error)
     alert('Failed to delete to comments.')

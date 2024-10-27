@@ -28,3 +28,20 @@ export const timeAgo = (dateString: string) => {
 
   return 'Vừa mới đây'
 }
+
+export const calculateDaysLeft = (expirationDate: string): number => {
+  // Lấy ngày hiện tại
+  const currentDate = new Date()
+
+  // Chuyển expirationDate (chuỗi định dạng ISO) thành đối tượng Date
+  const expiration = new Date(expirationDate)
+
+  // Tính toán số milliseconds giữa hai ngày
+  const diffInMilliseconds = expiration.getTime() - currentDate.getTime()
+
+  // Chuyển đổi milliseconds sang số ngày
+  const diffInDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24))
+
+  // Trả về số ngày còn lại
+  return diffInDays
+}

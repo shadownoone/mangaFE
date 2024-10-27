@@ -173,6 +173,18 @@ export type user = {
   avatar: string
   is_vip: any
   role: any
+  vip_expiration: any
+}
+
+export type UserProfile = {
+  user_id: number
+  username: string
+  avatar: string
+  is_vip: any
+  role: any
+  email: string
+  bio?: string
+  vip_expiration: any
 }
 
 export type Rating = {

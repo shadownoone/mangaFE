@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react'
 
 import imgLoading from '/loading.gif'
 import avatarUser from '../../assets/img/avatarUser.webp'
+import Picker from '@emoji-mart/react'
 
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import { ClassicEditor, Bold, Essentials, Italic, Mention, Paragraph, Undo } from 'ckeditor5'
@@ -19,6 +20,7 @@ import { comicsComment } from '@/types/data'
 import { timeAgo } from '@/utils/formatNumber'
 import { useSelector } from 'react-redux'
 import { RootState } from '@/app/store'
+import { toast } from 'react-toastify'
 
 const ListComment = ({ manga_id, chapter_id }: { manga_id: any; chapter_id?: any }) => {
   const [comment, setComment] = useState<comicsComment[]>([])
@@ -27,6 +29,7 @@ const ListComment = ({ manga_id, chapter_id }: { manga_id: any; chapter_id?: any
   const [loading, setLoading] = useState(true) // Track loading state
   const [error, setError] = useState(false) // Track error state
   const [newComment, setNewComment] = useState('')
+  const [showStickerPicker, setShowStickerPicker] = useState(false)
   // const [currentUsers, setCurrentUsers] = useState<any>(null)
   const currentUser = useSelector((state: RootState) => state.user.currentUser)
 
@@ -88,7 +91,7 @@ const ListComment = ({ manga_id, chapter_id }: { manga_id: any; chapter_id?: any
 
     try {
       if (!currentUser) {
-        alert('Bạn phải đăng nhập để bình luận')
+        toast.warning('Bạn phải đăng nhập để bình luận')
         return
       }
       // Add comment API call
@@ -120,6 +123,11 @@ const ListComment = ({ manga_id, chapter_id }: { manga_id: any; chapter_id?: any
     } catch (error) {
       console.error('Error removing comment:', error)
     }
+  }
+  const handleStickerSelect = (sticker: any) => {
+    const stickerImg = `<img src="${sticker.url}" alt="${sticker.id}" style="width: 50px; height: 50px;" />`
+    setNewComment((prev) => prev + stickerImg) // Chèn sticker vào nội dung CKEditor
+    setShowStickerPicker(false) // Ẩn Sticker Picker sau khi chọn
   }
 
   return (
@@ -181,6 +189,16 @@ const ListComment = ({ manga_id, chapter_id }: { manga_id: any; chapter_id?: any
               plugins: [Bold, Essentials, Italic, Mention, Paragraph, Undo]
             }}
           />
+          <button
+            onClick={() => setShowStickerPicker(!showStickerPicker)}
+            className='mt-2 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition duration-200'
+          >
+            Chọn Sticker
+          </button>
+
+          {/* Hiển thị Sticker Picker */}
+          {showStickerPicker && <Picker onSelect={handleStickerSelect} />}
+
           <button
             onClick={handleSubmitComment} // Gọi hàm gửi khi nhấn nút
             className='mt-3 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark transition duration-200'

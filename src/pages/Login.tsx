@@ -3,6 +3,7 @@ import PATH from '@/utils/path'
 import React, { useState } from 'react'
 import { FaGoogle, FaFacebook } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const Login = () => {
   const [username, setUsername] = useState('')
@@ -12,7 +13,7 @@ const Login = () => {
     e.preventDefault()
 
     if (!username || !password) {
-      alert('Please enter both username and password.')
+      toast.warning('Please enter both username and password.')
       return
     }
 

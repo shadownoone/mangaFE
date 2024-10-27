@@ -53,15 +53,18 @@ const VipPreviewComics = ({ data }: Props) => {
 
     if (!user.is_vip) {
       toast.warn('Bạn cần nâng cấp tài khoản VIP để xem truyện này.', { autoClose: 3000 })
-      setTimeout(() => createPaymentLink(), 3000) // Trì hoãn điều hướng
+      setTimeout(() => {
+        const userConfirmed = window.confirm('Bạn có muốn nâng cấp tài khoản VIP để tiếp tục?')
+        if (userConfirmed) {
+          createPaymentLink() // Redirect to payment creation if user agrees
+        } else {
+          toast.info('Bạn đã hủy nâng cấp tài khoản.', { autoClose: 3000 })
+        }
+      }, 3000)
       return
     }
 
-    // Người dùng đã là VIP, truy cập thành công
-    toast.success('Truy cập thành công!', { autoClose: 2000 })
-    setTimeout(() => {
-      navigate(`${PATH.comics}/${slug}`)
-    }, 2000)
+    navigate(`${PATH.comics}/${slug}`)
   }
 
   if (!data || data.length === 0 || !data[currentIndex]) {
@@ -116,9 +119,11 @@ const VipPreviewComics = ({ data }: Props) => {
                         to={`${PATH.comics}/${data[currentIndex].slug}/${data[currentIndex].chapters[0]?.slug}`}
                         onClick={(e) => {
                           e.preventDefault() // Ngăn điều hướng mặc định
-                          handleVipAccess(data[currentIndex].slug)
+                          handleVipAccess(
+                            `${data[currentIndex].slug}/${data[currentIndex].chapters[0]?.slug}`
+                          )
                         }}
-                        title={data[currentIndex].chapters[0]?.slug}
+                        title={data[currentIndex].chapters[0]?.title}
                         className='text-primary'
                       >
                         {data[currentIndex].chapters[0]?.title}
@@ -219,7 +224,9 @@ const VipPreviewComics = ({ data }: Props) => {
                           <Link
                             onClick={(e) => {
                               e.preventDefault() // Ngăn điều hướng mặc định
-                              handleVipAccess(data[currentIndex].slug)
+                              handleVipAccess(
+                                `${data[currentIndex].slug}/${data[currentIndex].chapters[0]?.slug}`
+                              )
                             }}
                             to={`${PATH.comics}/${item.slug}/${item.chapters[0]?.slug}`}
                             title={item.chapters[0]?.title}

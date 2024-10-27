@@ -3,6 +3,7 @@ import { FaGoogle, FaFacebook } from 'react-icons/fa'
 import { Link, useNavigate } from 'react-router-dom'
 import PATH from '@/utils/path'
 import { handleRegister } from '@/services/Register/handleRegister'
+import { toast } from 'react-toastify'
 
 const Register = () => {
   const [username, setUsername] = useState('')
@@ -16,21 +17,22 @@ const Register = () => {
     e.preventDefault()
 
     if (password !== confirmPassword) {
-      alert('Passwords do not match!')
+      toast.warning('Mật khẩu không giống nhau')
       return
     }
 
     try {
       const data = await handleRegister({ username, email, password })
       if (data.code === 1) {
-        alert('Registration successful! Redirecting to login...')
+        toast.success('Đăng ký thành công! Đang chuyển đến đăng nhập...')
         setTimeout(() => navigate(PATH.login), 2000)
       } else {
-        alert(data.message || 'Registration failed, please try again.')
+        toast.warning(data.message || 'Đăng ký thất bại, vui lòng thử lại.')
       }
     } catch (error) {
       console.error('Registration error:', error)
-      alert('Registration failed, please try again.')
+
+      toast.error('Đăng ký thất bại, vui lòng thử lại...')
     }
   }
 
